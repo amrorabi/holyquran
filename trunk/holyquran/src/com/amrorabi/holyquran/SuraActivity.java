@@ -87,6 +87,21 @@ public class SuraActivity extends Activity {
 						deltaX = xNew - xOld;
 //						deltaY = yNew - yOld;						
 						updateSuraNumber(deltaX, deltaY);
+						
+						Class cl = R.drawable.class;
+						try {
+							Field f = cl.getDeclaredField("sura_" + suraNumber);
+							suraView.setImageResource(f.getInt(null));
+							return true;
+							
+						} catch (NoSuchFieldException e) {
+							e.printStackTrace();
+						} catch (IllegalAccessException e) {
+							e.printStackTrace();
+						} catch (IllegalArgumentException e) {
+							e.printStackTrace();
+						}
+						
 						break;
 						
 				    case MotionEvent.ACTION_MOVE:
@@ -94,20 +109,6 @@ public class SuraActivity extends Activity {
 						suraView.setX(suraX + deltaMoving);
 						suraX = suraView.getX();
 						break;
-				}
-				
-				Class cl = R.drawable.class;
-				try {
-					Field f = cl.getDeclaredField("sura_" + suraNumber);
-					suraView.setImageResource(f.getInt(null));
-					return true;
-					
-				} catch (NoSuchFieldException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
 				}
 				
 				return false;
