@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -47,7 +48,9 @@ public class SuraActivity extends Activity {
 	private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
 	
 	private int suraNumber;
-	private ImageView imageView;
+	private ImageView suraView;
+	private float xOld, xNew, yOld, yNew, deltaX, deltaY;
+	private float suraX;
 
 	/**
 	 * The instance of the {@link SystemUiHider} for this activity.
@@ -60,28 +63,43 @@ public class SuraActivity extends Activity {
 		suraNumber = myIntent.getIntExtra("suraNumber", 0);		// 0 index
 		suraNumber += 1;
 		
-		imageView = (ImageView) findViewById(R.id.suraView);
+		suraView = (ImageView) findViewById(R.id.suraView);
 		Class cl = R.drawable.class;
 		Field f = cl.getDeclaredField("sura_" + suraNumber);
-		imageView.setImageResource(f.getInt(null));
+		suraView.setImageResource(f.getInt(null));
 		
-		imageView.setOnTouchListener(new OnTouchListener() {
+		suraView.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				
 				switch(event.getAction()){
 				
-					case MotionEvent.ACTION_UP:
-						suraNumber += 1;
 					case MotionEvent.ACTION_DOWN:
-						suraNumber -= 1;
+						xOld = event.getX();
+//						yOld = event.getY();
+						suraX = suraView.getX();
+						break;
+						
+					case MotionEvent.ACTION_UP:
+						xNew = event.getX();
+//						yNew = event.getY();
+						deltaX = xNew - xOld;
+//						deltaY = yNew - yOld;						
+						updateSuraNumber(deltaX, deltaY);
+						break;
+						
+				    case MotionEvent.ACTION_MOVE:
+						float deltaMoving = event.getX() - xOld;
+						suraView.setX(suraX + deltaMoving);
+						suraX = suraView.getX();
+						break;
 				}
 				
 				Class cl = R.drawable.class;
 				try {
 					Field f = cl.getDeclaredField("sura_" + suraNumber);
-					imageView.setImageResource(f.getInt(null));
+					suraView.setImageResource(f.getInt(null));
 					return true;
 					
 				} catch (NoSuchFieldException e) {
@@ -95,6 +113,23 @@ public class SuraActivity extends Activity {
 				return false;
 			}
 		});
+	}
+
+	protected void updateSuraNumber(float deltaX, float deltaY) {
+		
+		if(Math.abs(deltaX) > Math.abs(deltaY)) {
+            if(deltaX > 0) 
+            	suraNumber -= 1;
+            else 
+            	suraNumber += 1;
+        } 
+//		else {
+//            if(deltaY > 0) 
+//            	suraNumber -= 1;
+//            else 
+//            	suraNumber += 1;
+//        }
+		
 	}
 
 	@Override
