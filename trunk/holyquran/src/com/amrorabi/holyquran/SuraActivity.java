@@ -1,13 +1,18 @@
 package com.amrorabi.holyquran;
 
 import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Vector;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +27,7 @@ import com.amrorabi.holyquran.util.SystemUiHider;
  * 
  * @see SystemUiHider
  */
-public class SuraActivity extends Activity {
+public class SuraActivity extends FragmentActivity {
 	/**
 	 * Whether or not the system UI should be auto-hidden after
 	 * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -56,67 +61,27 @@ public class SuraActivity extends Activity {
 	 */
 	private SystemUiHider mSystemUiHider;
 	
+	private SuraPageAdapter suraPageAdapter;
+	
 	private void setupSuraView() throws NoSuchFieldException, IllegalAccessException, IllegalArgumentException{
 		
-		Intent myIntent = getIntent();
-		suraNumber = myIntent.getIntExtra("suraNumber", 0);		// 0 index
-		suraNumber += 1;
+//		Intent myIntent = getIntent();
+//		suraNumber = myIntent.getIntExtra("suraNumber", 0);		// 0 index
+//		suraNumber += 1;
+//		
+//		suraView = (ImageView) findViewById(R.id.suraView);
+//		Class cl = R.drawable.class;
+//		Field f = cl.getDeclaredField("sura_" + suraNumber);
+//		suraView.setImageResource(f.getInt(null));
 		
-		suraView = (ImageView) findViewById(R.id.suraView);
-		Class cl = R.drawable.class;
-		Field f = cl.getDeclaredField("sura_" + suraNumber);
-		suraView.setImageResource(f.getInt(null));
+		List<Fragment> suraFragments = new Vector<Fragment>();
+		suraFragments.add(Fragment.instantiate(this, SuraFragment1.class.getName()));
+		suraFragments.add(Fragment.instantiate(this, SuraFragment2.class.getName()));
+		suraFragments.add(Fragment.instantiate(this, SuraFragment3.class.getName()));		
+		suraPageAdapter = new SuraPageAdapter(this.getSupportFragmentManager(), suraFragments);
 		
-		suraView.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				
-				switch(event.getAction()){
-				
-					case MotionEvent.ACTION_DOWN:
-						xOld = event.getX();
-//						System.out.println("oooooooooooold x: " + xOld);
-//						yOld = event.getY();
-						suraX = suraView.getX();
-						originalX = suraView.getX();
-						break;
-						
-					case MotionEvent.ACTION_UP:
-//						xNew = event.getX();
-//						System.out.println("neeeeeeeeeew x: " + xNew);
-//						yNew = event.getY();
-						deltaX = xNew - xOld;
-//						deltaY = yNew - yOld;						
-						updateSuraNumber(deltaX, deltaY);
-						
-						Class cl = R.drawable.class;
-						try {
-							Field f = cl.getDeclaredField("sura_" + suraNumber);
-							suraView.setImageResource(f.getInt(null));
-							suraView.setX(originalX);
-							
-						} catch (NoSuchFieldException e) {
-							e.printStackTrace();
-						} catch (IllegalAccessException e) {
-							e.printStackTrace();
-						} catch (IllegalArgumentException e) {
-							e.printStackTrace();
-						}
-						
-						break;
-						
-				    case MotionEvent.ACTION_MOVE:
-				    	xNew = event.getX();
-						float deltaMoving = xNew - xOld;
-						suraView.setX(suraX + deltaMoving);
-						suraX = suraView.getX();
-						break;
-				}
-				
-				return true;
-			}
-		});
+		ViewPager suraViewPager = (ViewPager) findViewById(R.id.suraViewPager);
+		suraViewPager.setAdapter(suraPageAdapter);
 	}
 
 	protected void updateSuraNumber(float deltaX, float deltaY) {
