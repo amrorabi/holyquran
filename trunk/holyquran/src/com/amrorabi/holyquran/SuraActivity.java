@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -50,7 +49,7 @@ public class SuraActivity extends Activity {
 	private int suraNumber;
 	private ImageView suraView;
 	private float xOld, xNew, yOld, yNew, deltaX, deltaY;
-	private float suraX;
+	private float suraX, originalX;
 
 	/**
 	 * The instance of the {@link SystemUiHider} for this activity.
@@ -77,12 +76,15 @@ public class SuraActivity extends Activity {
 				
 					case MotionEvent.ACTION_DOWN:
 						xOld = event.getX();
+//						System.out.println("oooooooooooold x: " + xOld);
 //						yOld = event.getY();
 						suraX = suraView.getX();
+						originalX = suraView.getX();
 						break;
 						
 					case MotionEvent.ACTION_UP:
-						xNew = event.getX();
+//						xNew = event.getX();
+//						System.out.println("neeeeeeeeeew x: " + xNew);
 //						yNew = event.getY();
 						deltaX = xNew - xOld;
 //						deltaY = yNew - yOld;						
@@ -92,7 +94,7 @@ public class SuraActivity extends Activity {
 						try {
 							Field f = cl.getDeclaredField("sura_" + suraNumber);
 							suraView.setImageResource(f.getInt(null));
-							return true;
+							suraView.setX(originalX);
 							
 						} catch (NoSuchFieldException e) {
 							e.printStackTrace();
@@ -105,25 +107,26 @@ public class SuraActivity extends Activity {
 						break;
 						
 				    case MotionEvent.ACTION_MOVE:
-						float deltaMoving = event.getX() - xOld;
+				    	xNew = event.getX();
+						float deltaMoving = xNew - xOld;
 						suraView.setX(suraX + deltaMoving);
 						suraX = suraView.getX();
 						break;
 				}
 				
-				return false;
+				return true;
 			}
 		});
 	}
 
 	protected void updateSuraNumber(float deltaX, float deltaY) {
 		
-		if(Math.abs(deltaX) > Math.abs(deltaY)) {
-            if(deltaX > 0) 
-            	suraNumber -= 1;
-            else 
+//		if(Math.abs(deltaX) > Math.abs(deltaY)) {
+            if(deltaX > 0 && suraNumber < 604) 
             	suraNumber += 1;
-        } 
+            else if(suraNumber > 1)
+            	suraNumber -= 1;
+//        } 
 //		else {
 //            if(deltaY > 0) 
 //            	suraNumber -= 1;
