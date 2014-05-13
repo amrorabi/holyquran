@@ -6,5 +6,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_index">IndexActivity</string>
     <string name="title_activity_sura">SuraActivity</string>
+    <string name="title_activity_sura_fragment1">SuraFragment1</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

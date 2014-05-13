@@ -32,11 +32,12 @@
             tools:ignore="UselessParent" >
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/suraView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/abc_cab_background_bottom_holo_light" />
+        <android.support.v4.view.viewPager
+            android:id="@+id/suraViewPager"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            
+        </android.support.v4.view.viewPager>
 
     </FrameLayout>
 
