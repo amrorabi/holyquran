@@ -44,6 +44,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.amrorabi.holyquran.IndexActivity" />
         </activity>
+        <activity
+            android:name="com.amrorabi.holyquran.SuraFragment1"
+            android:label="@string/title_activity_sura_fragment1" >
+        </activity>
     </application>
 
 </manifest>
