@@ -22,8 +22,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -163,7 +161,7 @@ public class IndexActivity extends Activity {
 			//
 			// TODO: If Settings has multiple levels, Up should navigate up
 			// that hierarchy.
-			NavUtils.navigateUpFromSameTask(this);
+//			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
