@@ -1,12 +1,9 @@
 package com.amrorabi.holyquran;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Vector;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,7 +13,6 @@ import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
 import com.amrorabi.holyquran.util.SystemUiHider;
@@ -53,8 +49,6 @@ public class SuraActivity extends FragmentActivity {
 	
 	private int suraNumber;
 	private ImageView suraView;
-	private float xOld, xNew, yOld, yNew, deltaX, deltaY;
-	private float suraX, originalX;
 
 	/**
 	 * The instance of the {@link SystemUiHider} for this activity.
@@ -86,18 +80,10 @@ public class SuraActivity extends FragmentActivity {
 
 	protected void updateSuraNumber(float deltaX, float deltaY) {
 		
-//		if(Math.abs(deltaX) > Math.abs(deltaY)) {
             if(deltaX > 0 && suraNumber < 604) 
             	suraNumber += 1;
             else if(suraNumber > 1)
             	suraNumber -= 1;
-//        } 
-//		else {
-//            if(deltaY > 0) 
-//            	suraNumber -= 1;
-//            else 
-//            	suraNumber += 1;
-//        }
 		
 	}
 
