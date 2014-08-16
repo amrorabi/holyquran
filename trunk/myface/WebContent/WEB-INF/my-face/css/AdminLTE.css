@@ -1129,6 +1129,10 @@ body > .header .logo .icon {
    All form elements including input, select, textarea etc.
 -----------------------------------------------------------------
 */
+.fixed-width {
+	resize: vertical;
+}
+
 .form-control {
   -webkit-border-radius: 0px !important;
   -moz-border-radius: 0px !important;
