@@ -1,0 +1,13 @@
+Required:
+--------
+-comments popup/partial window
+-user can like post
+-user can comment
+-show photos
+-show videos
+
+===========================================
+
+Future work:
+-----------
+-ability to access the likes names 
