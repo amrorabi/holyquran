@@ -26,16 +26,36 @@ $(document).ready(
 							$('#timeline').append("<li class=\"time-label\"><span class=\"bg-red\"> " + formattedDate + " </span></li>");
 						}
 						
+						var timeLineItem = "<li><i class=\"fa fa-user bg-aqua\"></i>" +
+							"<div class=\"timeline-item\">" +
+							"<span class=\"time\"><i class=\"fa fa-clock-o\"></i> " +
+							"<abbr class=\"timeago\" title='"+ value.created_time +"'>" +
+								"</span>" +
+							"<h3 class=\"timeline-header no-border\">" +
+								"<a href=\"#\">" + value.from.name + "</a> </br>" + value.message +
+							"</h3>";
+						
+						if(value.likes != null || value.comments != null)
+							timeLineItem += 
+								" <div class=\"timeline-footer\">";
+						
+						if(value.likes != null){
+							timeLineItem += 
+								"<a href=\"#\" >" +
+                                value.likes.data.length + " likes </a>";							
+						}
+						
+						if(value.comments != null){
+							timeLineItem += "&nbsp;<a href=\"#\" >" +
+                                            value.comments.data.length + " comments </a>";
+						}
+						if(value.likes != null || value.comments != null)
+							timeLineItem += "</div>";
+						
+						timeLineItem +=	"</div></li>";
+						
 						//Post data
-						$('#timeline').append("<li><i class=\"fa fa-user bg-aqua\"></i>" +
-								"<div class=\"timeline-item\">" +
-									"<span class=\"time\"><i class=\"fa fa-clock-o\"></i> " +
-									"<abbr class=\"timeago\" title='"+ value.created_time +"'>" +
-										"</span>" +
-									"<h3 class=\"timeline-header no-border\">" +
-										"<a href=\"#\">" + value.from.name + "</a> </br>" + value.message +
-									"</h3>" +
-								"</div></li>");
+						$('#timeline').append(timeLineItem);
 					});
 
 				}
