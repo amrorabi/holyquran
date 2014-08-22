@@ -35,13 +35,28 @@
           <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
           <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
-<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script
+	src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="js/jquery-myface.js"></script>
 <script src="js/jquery.timeago.js"></script>
-<script src="js/jquery-myface-timeline.js"></script>    
+<script src="js/jquery-myface-timeline.js"></script>
+<script>
+	$('.Custom-jarviswidget-fullscreen-btn').click(
+			function() {
+				$('.correspondence-details').toggleClass(
+						'correspondence-details-style');
+				$('.correspondence-details').toggleClass('expand');
+				if ($('.correspondence-details').hasClass('w42')) {
+					$('.correspondence-details').removeClass('w42');
+				}
+				$('.fa-resize-full').toggleClass('fa-resize-small');
+			});
+</script>
 </head>
 <body class="skin-blue">
 	<!-- header logo: style can be found in header.less -->
@@ -503,6 +518,21 @@
 						<!-- The time line -->
 						<ul id="timeline" class="timeline">
 						</ul>
+					</div>
+					<div class="comments-window">
+
+						<a href="javascript:void(0);"
+							class="btn fa fa-fw Custom-jarviswidget-fullscreen-btn" rel="tooltip"
+							title="" data-placement="bottom" data-original-title="Fullscreen"
+							style="float: right; text-decoration: none;">&#10006;</a>
+					   
+					   <a href="javascript:void(0);"
+							class="btn fa fa-fw fa-expand"
+							rel="tooltip" title="" data-placement="bottom"
+							data-original-title="Fullscreen"><i
+							class="fa fa-resize-full "></i></a>
+						
+					  <label>tttttttttttttttt</label>
 					</div>
 					<!-- /.col -->
 				</div>

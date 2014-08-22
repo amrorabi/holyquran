@@ -3537,3 +3537,17 @@ fieldset[disabled] .btn-vk.active {
   color: #587ea3;
   background-color: #ffffff;
 }
+
+
+/********** my face **************/
+.comments-window{
+	background-color: #FFF;
+	bottom: 0px;
+	height: 70%;
+	width: 40%;
+	box-shadow: 2px 2px 2px #888;
+	margin-bottom: 1px;
+	position: fixed;
+	z-index: 1000;
+}
+/********************************/
