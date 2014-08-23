@@ -10,4 +10,6 @@ Required:
 
 Future work:
 -----------
--ability to access the likes names 
+-ability to access the likes names
+-ability to restore comments window by click on its header
+-solve scroll issues: percentage height & scroll top at opening 
