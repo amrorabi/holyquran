@@ -3541,13 +3541,22 @@ fieldset[disabled] .btn-vk.active {
 
 /********** my face **************/
 .comments-window{
+	display:none;
 	background-color: #FFF;
 	bottom: 0px;
 	height: 70%;
-	width: 40%;
+	width: 30%;
 	box-shadow: 2px 2px 2px #888;
 	margin-bottom: 1px;
 	position: fixed;
+    right:0;
 	z-index: 1000;
+	border-style: solid;
+    border-width: 1px;
+    border-color: #00C0EF;
 }
+.comments-link{}
+.like-btn{}
+.like-icon{}
+.likes-link{}
 /********************************/
