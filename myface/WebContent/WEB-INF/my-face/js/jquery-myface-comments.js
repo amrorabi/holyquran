@@ -66,10 +66,10 @@ $(document).ready(
 			
 			//set comments min/max action			
 			$('#minMaxCmt').on('click', function(c){
-				if(commentsDivHeight == '7%')
+				if(commentsDivHeight == '5%')
 					commentsDivHeight = '70%';
 				else
-					commentsDivHeight = '7%';
+					commentsDivHeight = '5%';
 				
 				$("#comments").animate({height: commentsDivHeight});
 			});
@@ -83,7 +83,7 @@ $(document).ready(
 			
 		   //set comments body scroll
 		   $('#commentsBody').slimScroll({
-		        height: '300px',		//TODO set in percentage, and find how to not affect div height
+		        height: '75%',		//TODO and find how to not affect div height
 		        start : 'top'
 		    });
 			
