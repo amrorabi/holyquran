@@ -1,7 +1,6 @@
-var accessToken = "CAACEdEose0cBAMjL3ZCPSj0DjkDlUX1YIATlmTjJ0TSWiUdcfH7PCL1SJJXIeTk5y0BZAq02GrMZBTT2M0ZCXlgY2w3dGI6aK9o27KoCe9EkvfZA0HtmZBI0ludX8jbLuGMXY234Y48klUiN6Bl2zOYTuya0e0QQwUyZBAh7aSb0uKSCv7l8dx1ekHfge3hvDEQSQCZCcm9stVkFjZCUmLy0c";
 var userId = "10152313707746156";		//TODO get from profile and set in session
 var idOfPost = '';
-var likeBtnClass = '';
+var likeBtnClass = 'fa-heart-o';
 
 function getLikesNames(data){
 	var names = "";
@@ -18,22 +17,19 @@ function getLikesNames(data){
 	return names;
 }
 
-function loadLikes(postId){
-	$.ajax({
-		url : "https://graph.facebook.com/v2.1/" + postId + "/likes?access_token=" + accessToken,
-		type : method,
-		Accept : 'application/json',
-		contentType : 'application/json',
-		dataType : "json",
-		success : function(jqXHR, status) {				
-			//change icon
-			btn.find('.like-icon').toggleClass('fa-heart');
-			btn.find('.like-icon').toggleClass('fa-heart-o');
-			
-			//reload likes
-		}
-	});
-}
+//function loadLikes(postId){
+//	$.ajax({
+//		url : "https://graph.facebook.com/v2.1/" + postId + "/likes?access_token=" + accessToken,
+//		type : "GET",
+//		Accept : 'application/json',
+//		contentType : 'application/json',
+//		dataType : "json",
+//		success : function(data, jqXHR, status) {				
+//			var likesNames = getLikesNames(data.data);
+//			$('a').find("#" + postId ).text(data.data.length + "")
+//		}
+//	});
+//}
 
 function likeUnlikePost(){
 	$(document).on('click', '.like-btn' ,function(){
@@ -43,19 +39,15 @@ function likeUnlikePost(){
 		idOfPost = btn.val();
 		
 		//case like
-		if(btn.find('.like-icon').find('fa-heart-o') != null){
-			url = "https://graph.facebook.com/v2.1/" + idOfPost + "/likes";		//val is post id
+		if(btn.find('.like-icon').hasClass('fa-heart-o'))
 			method = "POST";
-		}
 		//case unlike
-		else{
-			url =  "https://graph.facebook.com/v2.1/" + idOfPost;			//val is my like id
+		else
 			method = "DELETE";
-		}
 		
 		//send to facebook
 		$.ajax({
-			url : url + "?access_token=" + accessToken,
+			url : "https://graph.facebook.com/v2.1/" + idOfPost + "/likes?access_token=" + accessToken,
 			type : method,
 			Accept : 'application/json',
 			contentType : 'application/json',
