@@ -26,7 +26,8 @@ function loadUserHome(){
 					$('#timeline').append("<li class=\"time-label\"><span class=\"bg-red\"> " + formattedDate + " </span></li>");
 				}
 				
-				var likesNames = getLikesNames(value.likes.data);
+				if(value.likes != null)
+					var likesNames = getLikesNames(value.likes.data);
 				
 				var timeLineItem = "<li><i class=\"fa fa-user bg-aqua\"></i>" +
 					"<div class=\"timeline-item\">" +
@@ -47,7 +48,8 @@ function loadUserHome(){
 				
 				if(value.likes != null){
 					timeLineItem += 
-						"<a href=\"#\" class=\"likes-link\" data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\" " +
+						"<a id="+ value.id +
+						"href=\"#\" class=\"likes-link\" data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\" " +
 						"title=\"" + likesNames + "\">" +
                         value.likes.data.length + " likes </a>";							
 				}
