@@ -1,8 +1,3 @@
-/**
- * 
- */
-
-var accessToken = "CAACEdEose0cBAMjL3ZCPSj0DjkDlUX1YIATlmTjJ0TSWiUdcfH7PCL1SJJXIeTk5y0BZAq02GrMZBTT2M0ZCXlgY2w3dGI6aK9o27KoCe9EkvfZA0HtmZBI0ludX8jbLuGMXY234Y48klUiN6Bl2zOYTuya0e0QQwUyZBAh7aSb0uKSCv7l8dx1ekHfge3hvDEQSQCZCcm9stVkFjZCUmLy0c";
 var commentsDivHeight = "0";
 var currentPostId = "";
 var commentsCount = 0;
@@ -33,7 +28,15 @@ function loadComments(){
 							"<a href=\"#\" class=\"name\">" +
 							"<small class=\"text-muted pull-right\">" +
 								"<i class=\"fa fa-clock-o\"></i>" +
-								"<abbr class=\"timeago\" title=\""+ value.created_time +"\">" +
+								"<abbr class=\"timeago\" title=\""+ value.created_time +"\"/>";
+					
+					if(value.from.id == userId){
+						commentItem += "&nbsp&nbsp&nbsp&nbsp" +
+							" <button class=\"delete-cmt-btn\" value=" + value.id + ">" +
+							"x</button>";
+					}
+						
+					commentItem += 
 							"</small>" + value.from.name +
 							"</a> </br>" + value.message +
 						"</p>";
@@ -113,8 +116,7 @@ $(document).ready(
 				if(newComment == null || newComment.length == 0)
 					return;
 
-				//load specific post comments
-				// load user home
+				// add comment in facebook
 				$.ajax({
 					url : "https://graph.facebook.com/v2.1/" + currentPostId + "/comments?access_token=" + accessToken,
 					type : "POST",
@@ -128,6 +130,26 @@ $(document).ready(
 						//reload comments
 						loadComments();
 						var count = commentsCount + 1;
+						commentCountLink.text(count + " comments");
+					});
+			});
+			
+			//delete comment			
+			$(document).on('click', 'button.delete-cmt-btn', function(event){
+				
+				var commentId = $(this).val();
+
+				// add comment in facebook
+				$.ajax({
+					url : "https://graph.facebook.com/v2.1/" + commentId + "?access_token=" + accessToken,
+					type : "DELETE",
+					Accept : 'application/json',
+					contentType : 'application/json',
+					dataType : "json"
+				}).always(function(jqXHR, status) {
+						//reload comments
+						loadComments();
+						var count = commentsCount - 1;
 						commentCountLink.text(count + " comments");
 					});
 			});
