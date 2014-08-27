@@ -1,6 +1,8 @@
 Required:
 --------
+-login feature
 -fix delete comment issue
+-user notifications
 -show photos
 -show videos
 
