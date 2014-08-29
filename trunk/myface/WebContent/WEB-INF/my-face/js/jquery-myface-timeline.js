@@ -1,12 +1,3 @@
-var accessToken = "CAACEdEose0cBAMjL3ZCPSj0DjkDlUX1YIATlmTjJ0TSWiUdcfH7PCL1SJJXIeTk5y0BZAq02GrMZBTT2M0ZCXlgY2w3dGI6aK9o27KoCe9EkvfZA0HtmZBI0ludX8jbLuGMXY234Y48klUiN6Bl2zOYTuya0e0QQwUyZBAh7aSb0uKSCv7l8dx1ekHfge3hvDEQSQCZCcm9stVkFjZCUmLy0c";
-
-jQuery.ajaxSetup({
- 	'complete': function() { 
- 		jQuery('abbr.timeago').timeago();		  //initialize timeago plugin
- 		$("[data-toggle='tooltip']").tooltip();	  //activate tooltip feature in bootstrap
- 	}
-});
-
 function loadUserHome(){
 	$.ajax({
 		url : "https://graph.facebook.com/v2.1/me/home?access_token=" + accessToken,
@@ -74,8 +65,3 @@ function loadUserHome(){
 	});
 
 }
-
-$(document).ready(function() {
-		// load user home
-		loadUserHome();
-});

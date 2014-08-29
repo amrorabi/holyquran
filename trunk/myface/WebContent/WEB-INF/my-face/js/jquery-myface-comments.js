@@ -58,8 +58,7 @@ function loadComments(){
 		});
 }
 
-$(document).ready(
-		function() {
+function commentingActions() {
 			
 			//set comments close action
 			$('#closeCmt').on('click', function(c){
@@ -153,4 +152,4 @@ $(document).ready(
 						commentCountLink.text(count + " comments");
 					});
 			});
-});		
+}

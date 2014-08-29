@@ -1,4 +1,3 @@
-var userId = "10152313707746156";		//TODO get from profile and set in session
 var idOfPost = '';
 var likeBtnClass = 'fa-heart-o';
 
@@ -62,8 +61,3 @@ function likeUnlikePost(){
 		});
 	});
 }
-
-$(document).ready(function() {			
-		//like post method
-	likeUnlikePost();
-});
