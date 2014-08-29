@@ -1,6 +1,6 @@
 function loadUserNotifications(){
 	$.ajax({
-		url : "https://graph.facebook.com/v2.1/me/notifications?access_token=" + accessToken,
+		url : "https://graph.facebook.com/v2.1/me/notifications?access_token=" + sessionStorage.getItem("accessToken"),
 		type : "GET",
 		Accept : 'application/json',
 		contentType : 'application/json',

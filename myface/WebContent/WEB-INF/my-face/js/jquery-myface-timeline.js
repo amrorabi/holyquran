@@ -1,6 +1,6 @@
 function loadUserHome(){
 	$.ajax({
-		url : "https://graph.facebook.com/v2.1/me/home?access_token=" + accessToken,
+		url : "https://graph.facebook.com/v2.1/me/home?access_token=" + sessionStorage.getItem("accessToken"),
 		type : "GET",
 		Accept : 'application/json',
 		contentType : 'application/json',

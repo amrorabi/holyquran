@@ -2,7 +2,7 @@ function loadUserProfile(){
 		$
 		.ajax({
 			url : "https://graph.facebook.com/v2.1/me/picture?redirect=false&access_token="
-					+ accessToken,
+					+ sessionStorage.getItem("accessToken"),
 			type : "GET",
 			Accept : 'application/json',
 			contentType : 'application/json',
@@ -14,7 +14,7 @@ function loadUserProfile(){
 	
 		$.ajax({
 				url : "https://graph.facebook.com/v2.1/me?access_token="
-						+ accessToken,
+						+ sessionStorage.getItem("accessToken"),
 				type : "GET",
 				Accept : 'application/json',
 				contentType : 'application/json',
@@ -22,7 +22,7 @@ function loadUserProfile(){
 				success : function(data, status, jqXHR) {
 					$('#welcomeMsg1').text(
 							"Hello, " + data.first_name);
-					userId = data.id;
+					sessionStorage.setItem("userId", data.id);
 				}
 		});
 	
@@ -35,7 +35,7 @@ function loadUserProfile(){
 			 url = "https://graph.facebook.com/v2.1/me/feed";
 			 // Send the data using post
 			 var posting = $.post( url, { message: status ,
-			 access_token :accessToken});
+			 access_token :sessionStorage.getItem("accessToken")});
 		 
 			 // Put the results in a div
 			 posting.done(function( data ) {

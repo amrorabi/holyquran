@@ -1,7 +1,3 @@
-var accessToken = null;
-var accessTokenExpire = null;
-var userId = null;
-
 jQuery.ajaxSetup({
  	'complete': function() { 
  		jQuery('abbr.timeago').timeago();		  //initialize timeago plugin
@@ -28,11 +24,12 @@ function loadMyFace(){
 
 $(document).ready(function() {
 		
-		if(accessToken != null){
-			//load all components
-			loadMyFace();
+		if(sessionStorage.getItem("accessToken") == null){
+			// login & get access token
+			login();			
 		}
-		// login & get access token
-		else			
-			login();
+		
+		//load all components
+		loadMyFace();
+		
 });
