@@ -40,7 +40,7 @@ function loadUserHome(){
 				if(value.likes != null){
 					timeLineItem += 
 						"<a id="+ value.id +
-						"href=\"#\" class=\"likes-link\" data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\" " +
+						"href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\" " +
 						"title=\"" + likesNames + "\">" +
                         value.likes.data.length + " likes </a>";							
 				}

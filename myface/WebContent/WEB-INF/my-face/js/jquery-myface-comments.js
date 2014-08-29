@@ -30,10 +30,15 @@ function loadComments(){
 								"<i class=\"fa fa-clock-o\"></i>" +
 								"<abbr class=\"timeago\" title=\""+ value.created_time +"\"/>";
 					
-					if(value.from.id == sessionStorage.getItem("userId")){
+					if(value.can_remove){
 						commentItem += "&nbsp&nbsp&nbsp&nbsp" +
 							" <button class=\"delete-cmt-btn\" value=" + value.id + ">" +
 							"x</button>";
+					}
+					else{
+						commentItem += "&nbsp&nbsp&nbsp&nbsp" +
+							" <button class=\"btn btn-sm like-btn\" value=" + value.id + ">" +
+							"<i class=\"fa fa-fw " + getLikeButtonClass(value.user_likes) + " like-icon\"></i></button>";
 					}
 						
 					commentItem += 
@@ -44,9 +49,9 @@ function loadComments(){
 					if(value.like_count != null && value.like_count > 0){
 						commentItem += 
 							" <div class=\"timeline-footer\">" +
-							"<a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\">" +
+							"<a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\" >" +
 	                        value.like_count + " likes </a>" +
-	                        "</div>";							
+	                        "</div>";	
 					}
 					
 					commentItem +=	"<div style=\"border-bottom: #c0c0c0 solid 1px\"/></div>";
