@@ -14,6 +14,8 @@ function login(){
 		
 			var code = getParam(window.location.search, "code");
 			
+			window.history.replaceState("Replace", "My Face", "/myface/");
+			
 			if(code == null){
 				//show login button
 				$('#loginDiv')
@@ -37,7 +39,6 @@ function login(){
 				"https://www.facebook.com/dialog/oauth?client_id=636370543136997&redirect_uri=http://localhost:8080/myface/" +
 				"&scope=manage_notifications,manage_pages,publish_actions,read_stream");
 	});
-
 }
 
 function getAccessToken(code){
