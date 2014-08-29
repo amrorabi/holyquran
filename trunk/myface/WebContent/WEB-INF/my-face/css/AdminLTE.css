@@ -3848,13 +3848,11 @@ Component: timeline
 	
 }
 
-.likes-link {
-	
-}
 .login-body{
 	background-image: url("../img/login-bg.jpg");
 	background-size: 100% 100%;
 }
+
 /*login button*/
 body {
 	font-family: Impact;
