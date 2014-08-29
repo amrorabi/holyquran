@@ -63,6 +63,9 @@ function getAccessToken(code){
 									}, expires);
 				
 				sessionStorage.setItem("accessTokenExpire", accessTokenExpire);
+				
+				//load all components
+				loadMyFace();
 			}
 			
 		}
