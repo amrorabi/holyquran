@@ -40,13 +40,14 @@
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-<script
-	src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<script src="js/jquery-myface.js"></script>
 <script src="js/jquery.timeago.js"></script>
+<script src="js/jquery-myface-main.js"></script>
+<script src="js/jquery-myface-profile.js"></script>
 <script src="js/jquery-myface-timeline.js"></script>
 <script src="js/jquery-myface-comments.js"></script>
 <script src="js/jquery-myface-likes.js"></script>
+<script src="js/jquery-myface-notifications.js"></script>
+<script src="js/jquery-myface-login.js"></script>
 </head>
 <body class="skin-blue">
 	<!-- header logo: style can be found in header.less -->
@@ -139,113 +140,24 @@
 					<!-- Notifications: style can be found in dropdown.less -->
 					<li class="dropdown notifications-menu"><a href="#"
 						class="dropdown-toggle" data-toggle="dropdown"> <i
-							class="fa fa-warning"></i> <span class="label label-warning">10</span>
+							class="fa fa-bell-o"></i> <span id="notifyCount" class="label label-warning"></span>
 					</a>
 						<ul class="dropdown-menu">
-							<li class="header">You have 10 notifications</li>
+							<li id="notifyHeader" class="header"></li>
 							<li>
 								<!-- inner menu: contains the actual data -->
-								<ul class="menu">
-									<li><a href="#"> <i class="ion ion-ios7-people info"></i>
-											5 new members joined today
-									</a></li>
-									<li><a href="#"> <i class="fa fa-warning danger"></i>
-											Very long description here that may not fit into the page and
-											may cause design problems
-									</a></li>
-									<li><a href="#"> <i class="fa fa-users warning"></i> 5
-											new members joined
-									</a></li>
-
-									<li><a href="#"> <i class="ion ion-ios7-cart success"></i>
-											25 sales made
-									</a></li>
-									<li><a href="#"> <i class="ion ion-ios7-person danger"></i>
-											You changed your username
-									</a></li>
+								<ul id="notifyMenu" class="menu">
+									
 								</ul>
 							</li>
 							<li class="footer"><a href="#">View all</a></li>
 						</ul></li>
-					<!-- Tasks: style can be found in dropdown.less -->
-					<li class="dropdown tasks-menu"><a href="#"
-						class="dropdown-toggle" data-toggle="dropdown"> <i
-							class="fa fa-tasks"></i> <span class="label label-danger">9</span>
-					</a>
-						<ul class="dropdown-menu">
-							<li class="header">You have 9 tasks</li>
-							<li>
-								<!-- inner menu: contains the actual data -->
-								<ul class="menu">
-									<li>
-										<!-- Task item --> <a href="#">
-											<h3>
-												Design some buttons <small class="pull-right">20%</small>
-											</h3>
-											<div class="progress xs">
-												<div class="progress-bar progress-bar-aqua"
-													style="width: 20%" role="progressbar" aria-valuenow="20"
-													aria-valuemin="0" aria-valuemax="100">
-													<span class="sr-only">20% Complete</span>
-												</div>
-											</div>
-									</a>
-									</li>
-									<!-- end task item -->
-									<li>
-										<!-- Task item --> <a href="#">
-											<h3>
-												Create a nice theme <small class="pull-right">40%</small>
-											</h3>
-											<div class="progress xs">
-												<div class="progress-bar progress-bar-green"
-													style="width: 40%" role="progressbar" aria-valuenow="20"
-													aria-valuemin="0" aria-valuemax="100">
-													<span class="sr-only">40% Complete</span>
-												</div>
-											</div>
-									</a>
-									</li>
-									<!-- end task item -->
-									<li>
-										<!-- Task item --> <a href="#">
-											<h3>
-												Some task I need to do <small class="pull-right">60%</small>
-											</h3>
-											<div class="progress xs">
-												<div class="progress-bar progress-bar-red"
-													style="width: 60%" role="progressbar" aria-valuenow="20"
-													aria-valuemin="0" aria-valuemax="100">
-													<span class="sr-only">60% Complete</span>
-												</div>
-											</div>
-									</a>
-									</li>
-									<!-- end task item -->
-									<li>
-										<!-- Task item --> <a href="#">
-											<h3>
-												Make beautiful transitions <small class="pull-right">80%</small>
-											</h3>
-											<div class="progress xs">
-												<div class="progress-bar progress-bar-yellow"
-													style="width: 80%" role="progressbar" aria-valuenow="20"
-													aria-valuemin="0" aria-valuemax="100">
-													<span class="sr-only">80% Complete</span>
-												</div>
-											</div>
-									</a>
-									</li>
-									<!-- end task item -->
-								</ul>
-							</li>
-							<li class="footer"><a href="#">View all tasks</a></li>
-						</ul></li>
+											
 					<!-- User Account: style can be found in dropdown.less -->
 					<li class="dropdown user user-menu"><a href="#"
 						class="dropdown-toggle" data-toggle="dropdown"> <i
-							class="glyphicon glyphicon-user"></i> <span>Jane Doe <i
-								class="caret"></i></span>
+							class="glyphicon glyphicon-user"></i> <span><i
+								class="caret">Jane Doe </i></span>
 					</a>
 						<ul class="dropdown-menu">
 							<!-- User image -->
@@ -280,6 +192,25 @@
 			</div>
 		</nav>
 	</header>
+	
+	<!-- login modal -->
+	<div id="loginDiv" class="modal fade" >
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	            <h4 class="modal-title" id="myModalLabel">Welcome to my MyFace</h4>
+	            </div>
+	            <div class="modal-body login-body">
+	                <h3 style="text-align: center;font-style: italic;font-weight: bolder; color:white">Press to login by Facebook</h3>
+	                <div id="loginBtn" class="login-button"><div class="outer"><div class="height"><div class="inner">Log In</div></div></div></div>
+	            </div>
+	            <div>Designed By Amr Orabi</div>
+	        </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- end of login modal -->
+	
 	<div class="wrapper row-offcanvas row-offcanvas-left">
 		<!-- Left side column. contains the logo and sidebar -->
 		<aside class="left-side sidebar-offcanvas">
