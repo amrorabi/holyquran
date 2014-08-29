@@ -1,8 +1,9 @@
 Required:
 --------
--login feature
+-logout feature
 -fix delete comment issue
--user notifications
+-open a notification details 
+
 -show photos
 -show videos
 
@@ -10,6 +11,7 @@ Required:
 
 Future work:
 -----------
+-review import sources (try to make all locally)
 -ability to access the likes names
 -ability to restore comments window by click on its header
 -solve scroll issues: percentage height & scroll top at opening 
