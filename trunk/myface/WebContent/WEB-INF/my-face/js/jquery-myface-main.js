@@ -24,12 +24,14 @@ function loadMyFace(){
 
 $(document).ready(function() {
 		
-		// login & get access token
-		if(sessionStorage.getItem("accessToken") == null)
+		if(sessionStorage.getItem("accessToken") != null){		
+			//load all components
+			loadMyFace();
+		}
+		else{
+			// login & load my face
 			login();
-		
-		//load all components
-		loadMyFace();
+		}
 		
 		//sign out action
 		$('#signOutBtn').on('click', function(){
