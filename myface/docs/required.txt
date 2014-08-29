@@ -12,6 +12,7 @@ Required:
 
 Future work:
 -----------
+-ability to load more from the time line (feeds)
 -review import sources (try to make all locally)
 -ability to access the likes names
 -ability to restore comments window by click on its header
