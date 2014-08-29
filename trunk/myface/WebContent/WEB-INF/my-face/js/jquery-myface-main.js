@@ -24,12 +24,17 @@ function loadMyFace(){
 
 $(document).ready(function() {
 		
-		if(sessionStorage.getItem("accessToken") == null){
-			// login & get access token
-			login();			
-		}
+		// login & get access token
+		if(sessionStorage.getItem("accessToken") == null)
+			login();
 		
 		//load all components
 		loadMyFace();
+		
+		//sign out action
+		$('#signOutBtn').on('click', function(){
+			sessionStorage.removeItem("accessToken");
+			window.location.reload();
+		});
 		
 });
