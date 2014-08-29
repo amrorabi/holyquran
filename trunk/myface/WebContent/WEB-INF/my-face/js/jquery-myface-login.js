@@ -10,7 +10,7 @@ function getParam(queryString, key)
 function login(){
 
 	//check login
-	if(accessToken == null){
+	if(sessionStorage.getItem("accessToken") == null){
 		
 			var code = getParam(window.location.search, "code");
 			
@@ -47,19 +47,21 @@ function getAccessToken(code){
 		type : "GET",
 		success : function(data, jqXHR, status) {
 			
-			accessToken = getParam(data, "access_token");
+			var accessToken = getParam(data, "access_token");
 			var expires = getParam(data, "expires");
 			
 			//set timer for token expiring
 			if(accessToken != null && expires != null){
-				clearTimeout(accessTokenExpire);
+				
+				sessionStorage.setItem("accessToken", accessToken);
+				
+				clearTimeout(sessionStorage.getItem("accessTokenExpire"));
 				accessTokenExpire = setTimeout(function() {
 										accessToken = null;
 										accessTokenExpire = null;
 									}, expires);
 				
-				//load all components
-				loadMyFace();
+				sessionStorage.setItem("accessTokenExpire", accessTokenExpire);
 			}
 			
 		}

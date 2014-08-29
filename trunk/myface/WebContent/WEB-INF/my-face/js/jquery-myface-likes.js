@@ -4,7 +4,7 @@ var likeBtnClass = 'fa-heart-o';
 function getLikesNames(data){
 	var names = "";
 	$.each(data, function getName(key, value){
-		if(userId == value.id)
+		if(sessionStorage.getItem("userId") == value.id)
 			likeBtnClass = 'fa-heart';
 		else
 			likeBtnClass = 'fa-heart-o';
@@ -18,7 +18,7 @@ function getLikesNames(data){
 
 //function loadLikes(postId){
 //	$.ajax({
-//		url : "https://graph.facebook.com/v2.1/" + postId + "/likes?access_token=" + accessToken,
+//		url : "https://graph.facebook.com/v2.1/" + postId + "/likes?access_token=" + sessionStorage.getItem("accessToken"),
 //		type : "GET",
 //		Accept : 'application/json',
 //		contentType : 'application/json',
@@ -46,7 +46,7 @@ function likeUnlikePost(){
 		
 		//send to facebook
 		$.ajax({
-			url : "https://graph.facebook.com/v2.1/" + idOfPost + "/likes?access_token=" + accessToken,
+			url : "https://graph.facebook.com/v2.1/" + idOfPost + "/likes?access_token=" + sessionStorage.getItem("accessToken"),
 			type : method,
 			Accept : 'application/json',
 			contentType : 'application/json',

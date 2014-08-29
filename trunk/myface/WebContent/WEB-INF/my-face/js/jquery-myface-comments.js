@@ -10,7 +10,7 @@ function loadComments(){
 		//load specific post comments
 		// load user home
 		$.ajax({
-			url : "https://graph.facebook.com/v2.1/" + currentPostId + "/comments?access_token=" + accessToken,
+			url : "https://graph.facebook.com/v2.1/" + currentPostId + "/comments?access_token=" + sessionStorage.getItem("accessToken"),
 			type : "GET",
 			Accept : 'application/json',
 			contentType : 'application/json',
@@ -30,7 +30,7 @@ function loadComments(){
 								"<i class=\"fa fa-clock-o\"></i>" +
 								"<abbr class=\"timeago\" title=\""+ value.created_time +"\"/>";
 					
-					if(value.from.id == userId){
+					if(value.from.id == sessionStorage.getItem("userId")){
 						commentItem += "&nbsp&nbsp&nbsp&nbsp" +
 							" <button class=\"delete-cmt-btn\" value=" + value.id + ">" +
 							"x</button>";
@@ -117,7 +117,7 @@ function commentingActions() {
 
 				// add comment in facebook
 				$.ajax({
-					url : "https://graph.facebook.com/v2.1/" + currentPostId + "/comments?access_token=" + accessToken,
+					url : "https://graph.facebook.com/v2.1/" + currentPostId + "/comments?access_token=" + sessionStorage.getItem("accessToken"),
 					type : "POST",
 					Accept : 'application/json',
 					contentType : 'application/json',
@@ -140,7 +140,7 @@ function commentingActions() {
 
 				// add comment in facebook
 				$.ajax({
-					url : "https://graph.facebook.com/v2.1/" + commentId + "?access_token=" + accessToken,
+					url : "https://graph.facebook.com/v2.1/" + commentId + "?access_token=" + sessionStorage.getItem("accessToken"),
 					type : "DELETE",
 					Accept : 'application/json',
 					contentType : 'application/json',
