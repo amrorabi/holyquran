@@ -4,16 +4,21 @@ var likeBtnClass = 'fa-heart-o';
 function getLikesNames(data){
 	var names = "";
 	$.each(data, function getName(key, value){
-		if(sessionStorage.getItem("userId") == value.id)
-			likeBtnClass = 'fa-heart';
-		else
-			likeBtnClass = 'fa-heart-o';
-			
+		
+		likeBtnClass = getLikeButtonClass(sessionStorage.getItem("userId") == value.id);			
 		names += value.name;
 		names += "</br>";
+		
 	});
 	
 	return names;
+}
+
+function getLikeButtonClass(isLiked){
+	if(isLiked)
+		return 'fa-heart';
+	else
+		return 'fa-heart-o';
 }
 
 //function loadLikes(postId){
