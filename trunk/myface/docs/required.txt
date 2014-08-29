@@ -1,8 +1,8 @@
 Required:
 --------
--logout feature
 -fix delete comment issue
 -open a notification details 
+-sign notification as read at facebook
 
 -show photos
 -show videos
@@ -16,3 +16,4 @@ Future work:
 -ability to restore comments window by click on its header
 -solve scroll issues: percentage height & scroll top at opening 
 -comments popup/partial window adjustment
+-check can logout at facebook
