@@ -1,6 +1,7 @@
 Required:
 --------
--fix delete comment issue
+-edit comment
+-edit post
 -open a notification details 
 -sign notification as read at facebook
 
@@ -12,6 +13,7 @@ Required:
 
 Future work:
 -----------
+-delete published post
 -ability to load more from the time line (feeds)
 -review import sources (try to make all locally)
 -ability to access the likes names
@@ -19,3 +21,5 @@ Future work:
 -solve scroll issues: percentage height & scroll top at opening 
 -comments popup/partial window adjustment
 -check if we can logout at facebook by graph API ?
+-change likes count when like/unlike
+-still cannot delete comments on any post is NOT published by my application 
