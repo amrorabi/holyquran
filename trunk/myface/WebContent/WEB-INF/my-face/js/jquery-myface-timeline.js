@@ -31,8 +31,16 @@ function loadUserHome(){
 					"</span>" +
 					
 					"<h3 class=\"timeline-header no-border\">" +
-						"<a href=\"#\">" + value.from.name + "</a> </br>" + value.message +
-					"</h3>";
+						"<a href=\"#\">" + value.from.name + "</a>";
+				
+				if(value.story != null)
+					timeLineItem += "&nbsp&nbsp" + value.story.replace(value.from.name, "");
+					
+				if(value.message != null)
+					timeLineItem +=	"</br>" + value.message + "</h3>";
+				
+				if(value.description != null)
+					timeLineItem +=	"</br>" + value.description + "</h3>";
 				
 				timeLineItem += 
 						" <div class=\"timeline-footer\">";
