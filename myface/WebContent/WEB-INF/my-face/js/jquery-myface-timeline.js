@@ -42,6 +42,11 @@ function loadUserHome(){
 				if(value.description != null)
 					timeLineItem +=	"</br>" + value.description + "</h3>";
 				
+				if(value.type == "video"){
+					timeLineItem +=	"</br>" + "<a id=\"" + value.name + "\" href=\"" + value.source + "\" class=\"video-link\">" +
+					"Play Video</a>";
+				}
+				
 				timeLineItem += 
 						" <div class=\"timeline-footer\">";
 				
@@ -72,4 +77,23 @@ function loadUserHome(){
 		}
 	});
 
+}
+
+function homeActions(){
+	   //open video
+	   $(document).on('click', "a.video-link", function(event){				
+			event.preventDefault();
+			
+			videoSrc = $(this).attr("href");
+
+			$("#videoLabel").html($(this).attr("id"));
+			$("#videoSrc").attr("src", videoSrc);			
+			$('#videoDiv').modal({ keyboard: false });
+	   });
+	   
+	   //close video
+	   $("#videoDiv").on("hidden", function () {
+		   $("#videoSrc").pause();
+		   $("#videoSrc").currentTime = 0;
+	   });
 }
