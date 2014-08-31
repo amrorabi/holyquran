@@ -39,4 +39,6 @@ $(document).ready(function() {
 			window.location.reload();
 		});
 		
+		homeActions();
+		
 });
