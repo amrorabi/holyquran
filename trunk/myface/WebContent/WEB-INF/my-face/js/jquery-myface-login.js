@@ -18,15 +18,7 @@ function login(){
 			
 			if(code == null){
 				//show login button
-				$('#loginDiv')
-					.modal({ backdrop: 'static', keyboard: false })
-			        .one('click', '[data-value]', function (e) {
-			            if($(this).data('value')) {
-			                alert('confirmed');
-			            } else {
-			                alert('canceled');
-			            }
-		        });
+				$('#loginDiv').modal({ backdrop: 'static', keyboard: false });
 			}
 			else{	//Confirming code from facebook
 				getAccessToken(code);
