@@ -1,20 +1,23 @@
 Required:
 --------
+-stop video at closing
+-open a notification details
 -edit comment
 -edit post
--open a notification details 
--sign notification as read at facebook
 
+-sign notification as read at facebook
 -show photos
--show videos
 -change photo & name in the profile popup
 
 ===========================================
 
 Future work:
 -----------
+-set an image instead of the video link
 -delete published post
+-enhanced load the page. (default disabled background)
 -ability to load more from the time line (feeds)
+-set icon of time line item depending on its post type (status, photot, vedio)  
 -review import sources (try to make all locally)
 -ability to access the likes names
 -ability to restore comments window by click on its header
