@@ -3836,17 +3836,13 @@ Component: timeline
 	border-bottom-left-radius: 0px;
 }
 
-.comments-link {
-	
-}
+.comments-link {}
 
-.like-btn {
-	
-}
+.like-btn {}
 
-.like-icon {
-	
-}
+.like-icon {}
+
+.notify-item {}
 
 .login-body{
 	background-image: url("../img/login-bg.jpg");
