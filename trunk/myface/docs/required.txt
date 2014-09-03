@@ -1,7 +1,11 @@
 Required:
 --------
+-fix liked issue ??
+-youtube video is not played
+-arabic with english status
 -stop video at closing
 -open a notification details
+-friend requests
 -edit comment
 -edit post
 
@@ -13,6 +17,8 @@ Required:
 
 Future work:
 -----------
+-show messages
+-open events
 -set an image instead of the video link
 -delete published post
 -enhanced load the page. (default disabled background)
