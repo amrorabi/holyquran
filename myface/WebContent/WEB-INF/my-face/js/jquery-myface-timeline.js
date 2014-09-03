@@ -92,9 +92,14 @@ function homeActions(){
 			
 			videoSrc = $(this).attr("href");
 
-			$("#videoLabel").html($(this).attr("id"));
-			$("#videoSrc").attr("src", videoSrc);			
-			$('#videoDiv').modal({ keyboard: false });
+			if(/^http:\/\/youtube/.test(videoSrc)){
+				$("#youtubeSrc").attr("src", videoSrc);			
+				$('#youtubeDiv').modal({ keyboard: false });
+			}else{
+				$("#videoSrc").attr("src", videoSrc);			
+				$('#videoDiv').modal({ keyboard: false });
+			}
+//			$("#videoLabel").html($(this).attr("id"));
 	   });
 	   
 	   //close video
