@@ -28,6 +28,16 @@ function loadUserHome(){
 
 }
 
+function getToNames(data){
+	var toNames = "";
+	
+	$.each(data, function(key, value) {
+		toNames += value.name + ", ";
+	});
+	
+	return toNames;
+}
+
 function buildTimeLineItem(value){
 	if(value.likes != null)
 		var likesNames = getLikesNames(value.likes.data);
@@ -43,20 +53,37 @@ function buildTimeLineItem(value){
 		"</span>" +
 		
 		"<h3 class=\"timeline-header no-border\">" +
-			"<a href=\"#\">" + value.from.name + "</a>";
+			"<a href=\"https://www.facebook.com/app_scoped_user_id/" + value.from.id + "\">" + value.from.name + "</a>";
 	
 	if(value.story != null)
 		timeLineItem += "&nbsp&nbsp" + value.story.replace(value.from.name, "");
-		
-	if(value.message != null)
-		timeLineItem +=	"</br>" + value.message + "</h3>";
+	
+	if(value.to != null)
+		timeLineItem += "&nbsp&nbsp to &nbsp" + getToNames(value.to.data);
+
+	if(value.caption != null)
+		timeLineItem +=	"</br></br>" + value.caption + "</h3>";
 	
 	if(value.description != null)
 		timeLineItem +=	"</br>" + value.description + "</h3>";
 	
+	if(value.message != null)
+		timeLineItem +=	"</br>" + value.message + "</h3>";
+	
 	if(value.type == "video"){
-		timeLineItem +=	"</br>" + "<a id=\"" + value.name + "\" href=\"" + value.source + "\" class=\"video-link\">" +
+		timeLineItem +=	"</br></br>" + "<a id=\"" + value.name + "\" href=\"" + value.source + "\" class=\"video-link\">" +
 		"Play Video</a>";
+	}
+	else if(value.type == "link"){
+//		timeLineItem +=	"</br></br>" + "<a id=\"" + value.name + "\" href=\"" + value.link + "\" class=\"\" >" +
+//		value.name + "</a></br></br>";
+		
+		timeLineItem +=	"</br></br>" + "<a id=\"" + value.name + "\" href=\"" + value.link + "\" class=\"\" >" +
+		"<img style=\"border:0;\" src=\"" + value.picture + "\" width=\"10%\" height=\"10%\" \>" + "</a></br></br>";
+	}
+	else if(value.type == "photo"){
+		timeLineItem +=	"</br></br>" + "<a id=\"" + value.object_id + "\" href=\"#\" class=\"img-link\" >" +
+		"<img style=\"border:0;\" src=\"" + value.picture + "\" width=\"10%\" height=\"10%\" \>" + "</a></br></br>";
 	}
 	
 	timeLineItem += 
@@ -86,13 +113,32 @@ function buildTimeLineItem(value){
 }
 
 function homeActions(){
+		
+		 //open friend profile
+//		   $(document).on('click', "a.friend-link", function(event){				
+//				event.preventDefault();
+//				
+//				var friendId = $(this).attr("href");
+//				
+//				$.ajax({
+//					url : "https://graph.facebook.com/v2.1/" + friendId + "?fields=link&access_token=" + sessionStorage.getItem("accessToken"),
+//					type : "GET",
+//					Accept : 'application/json',
+//					contentType : 'application/json',
+//					dataType : "json",
+//					success : function(data, status, jqXHR) {
+//						window.open(data.link, '_blank');
+//					}
+//				});
+//		   });
+		
 	   //open video
 	   $(document).on('click', "a.video-link", function(event){				
 			event.preventDefault();
 			
-			videoSrc = $(this).attr("href");
+			var videoSrc = $(this).attr("href");
 
-			if(/^http:\/\/youtube/.test(videoSrc)){
+			if(/^http:\/\/www\.youtube/.test(videoSrc)){
 				$("#youtubeSrc").attr("src", videoSrc);			
 				$('#youtubeDiv').modal({ keyboard: false });
 			}else{
@@ -106,5 +152,25 @@ function homeActions(){
 	   $("#videoDiv").on("hidden", function () {
 		   $("#videoSrc").pause();
 		   $("#videoSrc").currentTime = 0;
+	   });
+	   
+	   //open photo
+	   $(document).on('click', "a.img-link", function(event){				
+			event.preventDefault();
+			
+			var photoId = $(this).attr("id");
+			$("#photoSrc").attr("src", "");
+			
+			$.ajax({
+				url : "https://graph.facebook.com/v2.1/" + photoId + "?fields=source&access_token=" + sessionStorage.getItem("accessToken"),
+				type : "GET",
+				Accept : 'application/json',
+				contentType : 'application/json',
+				dataType : "json",
+				success : function(data, status, jqXHR) {
+					$("#photoSrc").attr("src", data.source);
+					$('#photoDiv').modal({ keyboard: false });
+				}
+			});
 	   });
 }
