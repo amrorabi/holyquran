@@ -36,7 +36,9 @@ function getLikeButtonClass(isLiked){
 //}
 
 function likeUnlikePost(){
-	$(document).on('click', '.like-btn' ,function(){
+	$(document).on('click', '.like-btn' ,function(event){
+		event.preventDefault();
+		
 		var btn = $(this);
 		var url = "";
 		var method = "";
