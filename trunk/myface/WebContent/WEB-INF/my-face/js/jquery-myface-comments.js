@@ -8,7 +8,6 @@ function loadComments(){
 		$('#commentsBody').empty();		//remove old body and all its children		
 		
 		//load specific post comments
-		// load user home
 		$.ajax({
 			url : "https://graph.facebook.com/v2.1/" + currentPostId + "/comments?access_token=" + sessionStorage.getItem("accessToken"),
 			type : "GET",
@@ -143,7 +142,7 @@ function commentingActions() {
 				
 				var commentId = $(this).val();
 
-				// add comment in facebook
+				// delete comment in facebook
 				$.ajax({
 					url : "https://graph.facebook.com/v2.1/" + commentId + "?access_token=" + sessionStorage.getItem("accessToken"),
 					type : "DELETE",
