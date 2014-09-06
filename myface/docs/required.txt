@@ -1,10 +1,8 @@
 Required:
 --------
--fix liked issue ??
--youtube video is not played
+-support multiple lines in comment 
 -arabic with english status
 -stop video at closing
--open a notification details
 -friend requests
 -edit comment
 -edit post
