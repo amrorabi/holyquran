@@ -22,6 +22,9 @@ function loadUserHome(){
 				//append data
 				$('#timeline').append(timeLineItem);
 			});
+			
+			//start shorten plugin ("read more")
+//			$(".short-text").each(shorten());
 
 		}
 	});
@@ -65,10 +68,10 @@ function buildTimeLineItem(value){
 		timeLineItem +=	"</br></br>" + value.caption + "</h3>";
 	
 	if(value.description != null)
-		timeLineItem +=	"</br>" + value.description + "</h3>";
+		timeLineItem +=	"</br><div class=\"short-text\">" + value.description + "</div></h3>";
 	
 	if(value.message != null)
-		timeLineItem +=	"</br>" + value.message + "</h3>";
+		timeLineItem +=	"</br><div class=\"short-text\">" + value.message + "</div></h3>";
 	
 	if(value.type == "video"){
 		timeLineItem +=	"</br></br>" + "<a id=\"" + value.name + "\" href=\"" + value.source + "\" class=\"video-link\">" +
