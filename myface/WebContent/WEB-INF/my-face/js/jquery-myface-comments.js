@@ -114,6 +114,7 @@ function commentingActions() {
 			//add comment
 			$('#addComment').on('click', function(event){
 				
+				$('#newComment').attr("disabled", true);
 				var newComment = $('#newComment').val();
 				
 				if(newComment == null || newComment.length == 0)
@@ -134,6 +135,7 @@ function commentingActions() {
 						loadComments();
 						var count = commentsCount + 1;
 						commentCountLink.text(count + " comments");
+						$('#newComment').attr("disabled", false);
 					});
 			});
 			
