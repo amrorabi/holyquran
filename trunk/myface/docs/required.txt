@@ -1,5 +1,6 @@
 Required:
 --------
+-"Read More" for the long text
 -support multiple lines in comment 
 -arabic with english status
 -stop video at closing
@@ -8,7 +9,7 @@ Required:
 -edit post
 
 -sign notification as read at facebook
--show photos
+-fix show photos issue
 -change photo & name in the profile popup
 
 ===========================================
