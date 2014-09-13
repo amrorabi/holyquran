@@ -22,7 +22,7 @@ function loadMyFace(){
 	likeUnlikePost();
 }
 
-$(document).ready(function() {
+$(document).ready(function() {		
 		
 		if(sessionStorage.getItem("accessToken") != null){		
 			//load all components
