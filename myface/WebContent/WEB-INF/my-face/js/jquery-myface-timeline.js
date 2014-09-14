@@ -45,7 +45,14 @@ function buildTimeLineItem(value){
 	if(value.likes != null)
 		var likesNames = getLikesNames(value.likes.data);
 	
-	var timeLineItem = "<li><i class=\"fa fa-user bg-aqua\"></i>" +
+	var itemClass = "fa fa-comments bg-yellow";
+	
+	if(value.type == "video")
+		itemClass = "fa fa-video-camera bg-maroon";
+	else if(value.type == "photo")
+		itemClass = "fa fa-camera bg-purple";
+	
+	var timeLineItem = "<li><i class=\"" + itemClass +"\"></i>" +
 		"<div class=\"timeline-item\">" +
 		
 		"<span class=\"time\"><i class=\"fa fa-clock-o\"></i> " +
@@ -75,7 +82,7 @@ function buildTimeLineItem(value){
 	
 	if(value.type == "video"){
 		timeLineItem +=	"</br></br>" + "<a id=\"" + value.name + "\" href=\"" + value.source + "\" class=\"video-link\">" +
-		"Play Video</a>";
+		"<img style=\"border:1;\" src=\"img/video_icon.jpg\" width=\"10%\" height=\"10%\" \>" + "</a>";
 	}
 	else if(value.type == "link"){
 //		timeLineItem +=	"</br></br>" + "<a id=\"" + value.name + "\" href=\"" + value.link + "\" class=\"\" >" +
