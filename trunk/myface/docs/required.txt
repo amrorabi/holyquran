@@ -1,6 +1,5 @@
 Required:
 --------
--"Read More" for the long text
 -support multiple lines in comment 
 -arabic with english status
 -stop video at closing
@@ -18,7 +17,6 @@ Future work:
 -----------
 -show messages
 -open events
--set an image instead of the video link
 -delete published post
 -enhanced load the page. (default disabled background)
 -ability to load more from the time line (feeds)
