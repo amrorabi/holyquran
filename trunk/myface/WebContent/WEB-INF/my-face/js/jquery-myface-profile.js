@@ -30,6 +30,9 @@ function loadUserProfile(){
 		$("#statusForm").submit(function(event) {
 			// Stop form from submitting normally
 			 event.preventDefault();
+			 
+			 $('#statusText').attr("disabled", true);
+			 
 			 // Get some values from elements on the page:
 			 status = $("#statusText").val();						 
 			 url = "https://graph.facebook.com/v2.1/me/feed";
@@ -41,6 +44,7 @@ function loadUserProfile(){
 			 posting.done(function( data ) {
 				 alert("Your status is published successfully");
 				 $("#statusText").val("");
+				 $('#statusText').attr("disabled", false);
 			 });
 		});
 }
