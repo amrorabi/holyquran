@@ -72,13 +72,13 @@ function buildTimeLineItem(value){
 		timeLineItem += "&nbsp&nbsp to &nbsp" + getToNames(value.to.data);
 
 	if(value.caption != null)
-		timeLineItem +=	"</br></br>" + getTextElement(value.caption) + "</h3>";
+		timeLineItem +=	"</br></br><bdi>" + getTextElement(value.caption) + "</bdi></h3>";
 	
 	if(value.description != null)
-		timeLineItem +=	"</br>" + getTextElement(value.description) + "</h3>";
+		timeLineItem +=	"</br><bdi>" + getTextElement(value.description) + "</bdi></h3>";
 	
 	if(value.message != null)
-		timeLineItem +=	"</br>" + getTextElement(value.message) + "</h3>";
+		timeLineItem +=	"</br><bdi>" + getTextElement(value.message) + "</bdi></h3>";
 	
 	if(value.type == "video"){
 		timeLineItem +=	"</br></br>" + "<a id=\"" + value.name + "\" href=\"" + value.source + "\" class=\"video-link\">" +
