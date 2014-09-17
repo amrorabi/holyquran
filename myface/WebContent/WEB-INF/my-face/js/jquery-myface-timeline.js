@@ -159,11 +159,17 @@ function homeActions(){
 	   });
 	   
 	   //close video
-	   $("#videoDiv").on("hidden", function () {
-		   $("#videoSrc").pause();
-		   $("#videoSrc").currentTime = 0;
+	   $("#videoDiv").on("hidden.bs.modal", function () {
+		   $("#videoSrc")[0].pause();
+		   $("#videoSrc")[0].currentTime = 0;
 	   });
 	   
+	 //close youtube video
+	  $("#youtubeDiv").on("hidden.bs.modal", function () {
+		  $('#youtubeSrc')[0].contentWindow.
+		  		postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');  
+	  });
+	  
 	   //open photo
 	   $(document).on('click', "a.img-link", function(event){				
 			event.preventDefault();
