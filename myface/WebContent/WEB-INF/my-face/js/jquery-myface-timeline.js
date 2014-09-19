@@ -42,6 +42,9 @@ function getToNames(data){
 }
 
 function buildTimeLineItem(value){
+	
+	likeBtnClass = 'fa-heart-o';
+	
 	if(value.likes != null)
 		var likesNames = getLikesNames(value.likes.data);
 	
