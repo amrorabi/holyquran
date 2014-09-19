@@ -14,7 +14,7 @@ function loadUserHome(){
 				if(dateLabel != creationDate.toDateString()){
 					dateLabel = creationDate.toDateString();
 					var formattedDate = creationDate.toLocaleFormat('%d %b %Y'); 
-					$('#timeline').append("<li class=\"time-label\"><span class=\"bg-red\"> " + formattedDate + " </span></li>");
+					$('#timeline').append("<li class='time-label'><span class='bg-red'> " + formattedDate + " </span></li>");
 				}
 				
 				var timeLineItem = buildTimeLineItem(value);
@@ -52,18 +52,18 @@ function buildTimeLineItem(value){
 	else if(value.type == "photo")
 		itemClass = "fa fa-camera bg-purple";
 	
-	var timeLineItem = "<li><i class=\"" + itemClass +"\"></i>" +
-		"<div class=\"timeline-item\">" +
+	var timeLineItem = "<li><i class='" + itemClass +"'></i>" +
+		"<div class='timeline-item'>" +
 		
-		"<span class=\"time\"><i class=\"fa fa-clock-o\"></i> " +
-			"<abbr class=\"timeago\" title=\""+ value.created_time +"\"/>" +
+		"<span class='time'><i class='fa fa-clock-o'></i> " +
+			"<abbr class='timeago' title='"+ value.created_time +"'/>" +
 			"&nbsp&nbsp&nbsp&nbsp" +
-			" <button class=\"btn btn-sm like-btn\" value=" + value.id + ">" +
-			"<i class=\"fa fa-fw " + likeBtnClass + " like-icon\"></i></button>" +
+			" <button class='btn btn-sm like-btn' value=" + value.id + ">" +
+			"<i class='fa fa-fw " + likeBtnClass + " like-icon'></i></button>" +
 		"</span>" +
 		
-		"<h3 class=\"timeline-header no-border\">" +
-			"<a href=\"https://www.facebook.com/app_scoped_user_id/" + value.from.id + "\">" + value.from.name + "</a>";
+		"<h3 class='timeline-header no-border'>" +
+			"<a href='https://www.facebook.com/app_scoped_user_id/" + value.from.id + "'>" + value.from.name + "</a>";
 	
 	if(value.story != null)
 		timeLineItem += "&nbsp&nbsp" + value.story.replace(value.from.name, "");
@@ -81,38 +81,35 @@ function buildTimeLineItem(value){
 		timeLineItem +=	"</br><bdi>" + getTextElement(value.message) + "</bdi></h3>";
 	
 	if(value.type == "video"){
-		timeLineItem +=	"</br></br>" + "<a id=\"" + value.name + "\" href=\"" + value.source + "\" class=\"video-link\">" +
-		"<img style=\"border:1;\" src=\"img/video_icon.jpg\" width=\"10%\" height=\"10%\" \>" + "</a>";
+		timeLineItem +=	"</br></br>" + "<a id='" + value.name + "' href='" + value.source + "' class='video-link'>" +
+		"<img style='border:1;' src='img/video_icon.jpg' width='10%' height='10%' \>" + "</a>";
 	}
 	else if(value.type == "link"){
-//		timeLineItem +=	"</br></br>" + "<a id=\"" + value.name + "\" href=\"" + value.link + "\" class=\"\" >" +
-//		value.name + "</a></br></br>";
-		
-		timeLineItem +=	"</br></br>" + "<a id=\"" + value.name + "\" href=\"" + value.link + "\" class=\"\" >" +
-		"<img style=\"border:0;\" src=\"" + value.picture + "\" width=\"10%\" height=\"10%\" \>" + "</a></br></br>";
+		timeLineItem +=	"</br></br>" + "<a id='" + value.name + "' href='" + value.link + "' target='_blank' >" +
+		"<img style='border:0;' src='" + value.picture + "' width='10%' height='10%' \>" + "</a></br></br>";
 	}
 	else if(value.type == "photo"){
-		timeLineItem +=	"</br></br>" + "<a id=\"" + value.object_id + "\" href=\"#\" class=\"img-link\" >" +
-		"<img style=\"border:0;\" src=\"" + value.picture + "\" width=\"10%\" height=\"10%\" \>" + "</a></br></br>";
+		timeLineItem +=	"</br></br>" + "<a id='" + value.object_id + "' href='#' class='img-link' >" +
+		"<img style='border:0;' src='" + value.picture + "' width='10%' height='10%' \>" + "</a></br></br>";
 	}
 	
 	timeLineItem += 
-			" <div class=\"timeline-footer\">";
+			" <div class='timeline-footer'>";
 	
 	if(value.likes != null){
 		timeLineItem += 
 			"<a id="+ value.id +
-			"href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\" " +
-			"title=\"" + likesNames + "\">" +
+			"href='#' data-toggle='tooltip' data-placement='top' data-html='true' " +
+			"title='" + likesNames + "'>" +
             value.likes.data.length + " likes </a>";							
 	}
 	
 	if(value.comments != null){
-		timeLineItem += "&nbsp;<a href=\""+ value.id +"\" class=\"comments-link\">" +
+		timeLineItem += "&nbsp;<a href='"+ value.id +"' class='comments-link'>" +
                         value.comments.data.length + " comments </a>";
 	}
 	else{
-		timeLineItem += "&nbsp;<a href=\""+ value.id +"\" class=\"comments-link\">write comment</a>";
+		timeLineItem += "&nbsp;<a href='"+ value.id +"' class='comments-link'>write comment</a>";
 	}
 	
 	timeLineItem += "</div>";
