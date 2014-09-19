@@ -34,9 +34,12 @@ $(document).ready(function() {
 		}
 		
 		//sign out action
-		$('#signOutBtn').on('click', function(){
-			sessionStorage.removeItem("accessToken");
-			window.location.reload();
+		$('#signOutBtn').on('click', function(){			
+			var accessToken = sessionStorage.getItem("accessToken");			
+			//remove token from session
+			sessionStorage.removeItem("accessToken");			
+			//logout at facebook
+			window.location.replace("https://www.facebook.com/logout.php?next=http://localhost:8080/myface/&access_token=" + accessToken);			
 		});
 		
 		homeActions();
