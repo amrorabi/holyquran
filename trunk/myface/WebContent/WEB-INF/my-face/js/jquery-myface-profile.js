@@ -9,6 +9,7 @@ function loadUserProfile(){
 			dataType : "json",
 			success : function(data, status, jqXHR) {
 				$('#usrImg1').attr('src', data.data.url);
+				$('#profileImg').attr('src', data.data.url);
 			}
 		});
 	
@@ -22,6 +23,9 @@ function loadUserProfile(){
 				success : function(data, status, jqXHR) {
 					$('#welcomeMsg1').text(
 							"Hello, " + data.first_name);
+					$('#profileUserName').html(data.name + " <i class=\"caret\"></i>");
+					$('#aboutUser').text(data.bio);
+					
 					sessionStorage.setItem("userId", data.id);
 				}
 		});
