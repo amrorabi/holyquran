@@ -1,15 +1,12 @@
 Required:
 --------
 -support multiple lines in comment 
--arabic with english status
--stop video at closing
 -friend requests
 -edit comment
 -edit post
 
 -sign notification as read at facebook
 -fix show photos issue
--change photo & name in the profile popup
 
 ===========================================
 
@@ -26,6 +23,5 @@ Future work:
 -ability to restore comments window by click on its header
 -solve scroll issues: percentage height & scroll top at opening 
 -comments popup/partial window adjustment
--check if we can logout at facebook by graph API ?
 -change likes count when like/unlike
 -still cannot delete comments on any post is NOT published by my application 
