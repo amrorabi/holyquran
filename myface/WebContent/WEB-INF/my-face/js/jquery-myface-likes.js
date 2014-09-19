@@ -3,12 +3,13 @@ var likeBtnClass = 'fa-heart-o';
 
 function getLikesNames(data){
 	var names = "";
-	$.each(data, function getName(key, value){
-		
-		likeBtnClass = getLikeButtonClass(sessionStorage.getItem("userId") == value.id);			
+	var userId = sessionStorage.getItem("userId");
+	likeBtnClass = 'fa-heart-o';
+	$.each(data, function getName(key, value){				
 		names += value.name;
 		names += "</br>";
-		
+		if(userId == value.id)
+			likeBtnClass = 'fa-heart';	
 	});
 	
 	return names;
