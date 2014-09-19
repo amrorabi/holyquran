@@ -29,7 +29,7 @@ function login(){
 	$('#loginBtn').click(function(){
 		window.location.replace(
 				"https://www.facebook.com/dialog/oauth?client_id=636370543136997&redirect_uri=http://localhost:8080/myface/" +
-				"&scope=manage_notifications,manage_pages,publish_actions,read_stream,user_likes,user_status");
+				"&scope=manage_notifications,manage_pages,publish_actions,read_stream,user_likes,user_status,user_about_me");
 	});
 }
 
