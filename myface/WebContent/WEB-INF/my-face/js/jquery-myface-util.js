@@ -1,10 +1,11 @@
 var config = {
 		showChars : 300,
+		threshold: 300,
 		ellipsesText : "...",
 		moreText : "more",
 		lessText : "less",
 		errMsg : null,
-		force : false
+		force : false		
 	};
 
 
@@ -32,7 +33,7 @@ function getTextElement(content) {
 	
 	var contentlen = content.length;
 	
-	if (contentlen > config.showChars) {
+	if ((contentlen - config.showChars) > config.threshold) {
 		
 		var c = content.substr(0, config.showChars) + config.ellipsesText;
 		return '<div class="shortcontent">' + c
