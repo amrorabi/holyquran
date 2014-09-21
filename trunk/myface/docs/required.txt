@@ -1,19 +1,24 @@
 Required:
 --------
+-show messages
 -support multiple lines in comment 
--friend requests
+-receive friend requests
 -edit comment
 -edit post
 
 -sign notification as read at facebook
 -fix show photos issue
+-user can open links within text
+-Ar-En direction in all items
 
 ===========================================
 
 Future work:
 -----------
--show messages
 -open events
+-send friend request
+-think in idea for comments of the opened notificatino item
+-set notify/msg times in their menus items
 -delete published post
 -enhanced load the page. (default disabled background)
 -ability to load more from the time line (feeds)
@@ -25,3 +30,4 @@ Future work:
 -comments popup/partial window adjustment
 -change likes count when like/unlike
 -still cannot delete comments on any post is NOT published by my application 
+-compose new message
