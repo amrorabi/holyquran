@@ -9,14 +9,20 @@ function loadMyFace(){
 	// load user info
 	loadUserProfile();			
 	
-	// load user notifications
+	// load user notifications (headers)
 	loadUserNotifications();
+	
+	// load user messages (headers)
+	loadUserMessages();
 	
 	// load user home
 	loadUserHome();
 	
 	//comments buttons actions
 	commentingActions();
+	
+	//conversation buttons actions
+	conversationActions();
 	
 	//like post method
 	likeUnlikePost();

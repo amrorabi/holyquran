@@ -3807,17 +3807,34 @@ Component: timeline
 .comments-window {
 	display: none;
 	background-color: #FFF;
+	right: 0;
 	bottom: 0px;
 	height: 70%;
 	width: 30%;
 	box-shadow: 2px 2px 2px #888;
 	margin-bottom: 1px;
 	position: fixed;
-	right: 0;
 	z-index: 1000;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #00C0EF;
+}
+
+.conversation-window {
+	display: none;
+	background-color: #FFF;
+	left: 0;
+	bottom: 0px;
+	height: 50%;
+	width: 30%;
+	box-shadow: 2px 2px 2px #888;
+	margin-bottom: 1px;
+	position: fixed;
+	z-index: 1000;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #00C0EF;
+	-webkit-user-drag: element;
 }
 
 .delete-cmt-btn {

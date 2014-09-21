@@ -19,10 +19,10 @@ function loadUserNotifications(){
 					id = value.link;
 				
 				var notificationItem = "<li>" +
-						"<a href=\"" + id + "\" class=\"notify-item\" >" +
-//						"<i class=\"fa fa-clock-o\"></i>" +
-//						"<abbr class=\"timeago\" title=\""+ value.created_time +"\"/>" +
-							"<i class=\"ion ion-ios7-people info\" />" + value.title +							
+						"<a href='" + id + "' class='notify-item' >" +
+//						"<i class='fa fa-clock-o' ></i>" +
+//						"<abbr class='timeago' title='"+ value.created_time +"' />" +
+							"<i class='ion ion-ios7-people info' />" + value.title +							
 							"</a> </li>" ;
 				
 				//Post data

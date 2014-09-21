@@ -5,7 +5,7 @@ var commentsCount = 0;
 function loadComments(){
 		
 		$('#newComment').val(null);		
-		$('#commentsBody').empty();		//remove old body and all its children		
+		$('#commentsBody').empty();		//remove old body and all its children
 		
 		//load specific post comments
 		$.ajax({
@@ -17,27 +17,27 @@ function loadComments(){
 			success : function(data, status, jqXHR) {
 				
 				commentsCount = data.data.length;
-//				$('#commentsHeader').after("<div id=\"commentsBody\" style=\"overflow: hidden; width: auto; height: 250px;\" class=\"box-body chat\"/>");		//add new body
+//				$('#commentsHeader').after("<div id='commentsBody' style='overflow: hidden; width: auto; height: 250px;' class='box-body chat'/>");		//add new body
 				
 				$.each(data.data, function(key, value) {
 					
-					var commentItem = "<div class=\"item\">" +
-						"<img src=\"img/avatar.png\" alt=\"user image\" class=\"online\" />" +
-						"<p class=\"message\">" +
-							"<a href=\"#\" class=\"name\">" +
-							"<small class=\"text-muted pull-right\">" +
-								"<i class=\"fa fa-clock-o\"></i>" +
-								"<abbr class=\"timeago\" title=\""+ value.created_time +"\"/>";
+					var commentItem = "<div class='item'>" +
+						"<img src='img/avatar.png' alt='user image' class='online' />" +
+						"<p class='message'>" +
+							"<a href='#' class='name'>" +
+							"<small class='text-muted pull-right'>" +
+								"<i class='fa fa-clock-o'></i>" +
+								"<abbr class='timeago' title='"+ value.created_time +"'/>";
 					
 					if(value.can_remove){
 						commentItem += "&nbsp&nbsp&nbsp&nbsp" +
-							" <button class=\"delete-cmt-btn\" value=" + value.id + ">" +
+							" <button class='delete-cmt-btn' value=" + value.id + ">" +
 							"x</button>";
 					}
 					else{
 						commentItem += "&nbsp&nbsp&nbsp&nbsp" +
-							" <button class=\"btn btn-sm like-btn\" value=" + value.id + ">" +
-							"<i class=\"fa fa-fw " + getLikeButtonClass(value.user_likes) + " like-icon\"></i></button>";
+							" <button class='btn btn-sm like-btn' value=" + value.id + ">" +
+							"<i class='fa fa-fw " + getLikeButtonClass(value.user_likes) + " like-icon'></i></button>";
 					}
 						
 					commentItem += 
@@ -47,19 +47,28 @@ function loadComments(){
 					
 					if(value.like_count != null && value.like_count > 0){
 						commentItem += 
-							" <div class=\"timeline-footer\">" +
-							"<a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\" >" +
+							" <div class='timeline-footer'>" +
+							"<a href='#' data-toggle='tooltip' data-placement='top' data-html='true' >" +
 	                        value.like_count + " likes </a>" +
 	                        "</div>";	
 					}
 					
-					commentItem +=	"<div style=\"border-bottom: #c0c0c0 solid 1px\"/></div>";
+					commentItem +=	"<div style='border-bottom: #c0c0c0 solid 1px'/></div>";
 					
 					//Post data
 					$('#commentsBody').append(commentItem);
 				});
 			}
 		});
+}
+
+function showCommentsWindow(){
+	if(commentsDivHeight != '70%'){
+		commentsDivHeight = '70%';
+		$("#comments").css("height", 0);
+		$("#comments").show();
+		$("#comments").animate({height: commentsDivHeight}, 700);
+	}
 }
 
 function commentingActions() {
@@ -102,12 +111,7 @@ function commentingActions() {
 				
 				loadComments();
 				
-				if(commentsDivHeight != '70%'){
-					commentsDivHeight = '70%';
-					$("#comments").css("height", 0);
-					$("#comments").show();
-					$("#comments").animate({height: commentsDivHeight}, 700);
-				}
+				showCommentsWindow();
 		   });
 		   
 		   
