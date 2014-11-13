@@ -62,7 +62,11 @@ function buildTimeLineItem(value){
 			"<abbr class='timeago' title='"+ value.created_time +"'/>" +
 			"&nbsp&nbsp&nbsp&nbsp" +
 			" <button class='btn btn-sm like-btn' value=" + value.id + ">" +
-			"<i class='fa fa-fw " + likeBtnClass + " like-icon'></i></button>" +
+			"		<i class='fa fa-fw " + likeBtnClass + " like-icon'></i>" +
+			" </button>" +
+			" <button class='btn btn-sm share-btn' value=" + value.id + ">" +
+					"<i class='fa fa-fw fa-retweet'></i>" +
+			" </button>" +
 		"</span>" +
 		
 		"<h3 class='timeline-header no-border'>" +

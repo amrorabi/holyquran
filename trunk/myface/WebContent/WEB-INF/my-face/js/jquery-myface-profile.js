@@ -29,26 +29,4 @@ function loadUserProfile(){
 					sessionStorage.setItem("userId", data.id);
 				}
 		});
-	
-		// Submit post
-		$("#statusForm").submit(function(event) {
-			// Stop form from submitting normally
-			 event.preventDefault();
-			 
-			 $('#statusText').attr("disabled", true);
-			 
-			 // Get some values from elements on the page:
-			 status = $("#statusText").val();						 
-			 url = "https://graph.facebook.com/v2.1/me/feed";
-			 // Send the data using post
-			 var posting = $.post( url, { message: status ,
-			 access_token :sessionStorage.getItem("accessToken")});
-		 
-			 // Put the results in a div
-			 posting.done(function( data ) {
-				 alert("Your status is published successfully");
-				 $("#statusText").val("");
-				 $('#statusText').attr("disabled", false);
-			 });
-		});
 }
