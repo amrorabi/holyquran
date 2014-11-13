@@ -26,6 +26,9 @@ function loadMyFace(){
 	
 	//like post method
 	likeUnlikePost();
+	
+	//share post
+	sharePost();
 }
 
 $(document).ready(function() {		
