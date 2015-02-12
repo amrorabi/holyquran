@@ -7,10 +7,9 @@
     tools:ignore="MergeRootFrame" >
 
     <ListView
-        android:id="@+id/listView1"
+        android:id="@+id/musclesList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/musclesNames" >
+        android:layout_height="wrap_content">
     </ListView>
 
 </FrameLayout>
