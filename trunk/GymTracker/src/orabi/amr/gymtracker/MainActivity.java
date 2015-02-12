@@ -9,6 +9,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -71,14 +73,28 @@ public class MainActivity extends Activity implements
 			query = db.rawQuery("select muscle_name from muscles", null);
 		}
 		
-		List<String> muscleNames = new ArrayList<String>();
+		List<MuscleListItem> muscleNames = new ArrayList<MuscleListItem>();
 		while(query.moveToNext()){
-			muscleNames.add(query.getString(0));
+			MuscleListItem item = new MuscleListItem();
+			item.id = query.getInt(0);
+			item.name = query.getString(1);
+			muscleNames.add(item);
 		}
 		
-		muscleArrayAdapter adapter = new muscleArrayAdapter(this, android.R.layout.simple_list_item_1, muscleNames);
-		ListView MainList = (ListView) findViewById(R.id.musclesList);
-		MainList.setAdapter(adapter);
+		MuscleArrayAdapter adapter = new MuscleArrayAdapter(this, android.R.layout.simple_list_item_1, muscleNames);
+		ListView mainList = (ListView) findViewById(R.id.musclesList);
+		mainList.setAdapter(adapter);
+		
+		mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent i = new Intent(MainActivity.this, MusclueExercises.class);
+				i.putExtra("muscleId", id);
+				 startActivity(i);
+			}
+
+		});
 	}
 
 	@Override
@@ -160,16 +176,29 @@ public class MainActivity extends Activity implements
 		}
 	}
 	
-	private class muscleArrayAdapter extends ArrayAdapter<String> {
+	private class MuscleListItem{
+		int id;
+		String name;
+	}
+	
+	private class MuscleArrayAdapter extends ArrayAdapter<MuscleListItem> {
+		
+		private List<MuscleListItem> objects;
 
-	    public muscleArrayAdapter(Context context, int textViewResourceId,
-	        List<String> objects) {
+	    public MuscleArrayAdapter(Context context, int textViewResourceId,
+	        List<MuscleListItem> objects) {
 	      super(context, textViewResourceId, objects);
+	      this.objects = objects;
 	    }
 
 	    @Override
 	    public long getItemId(int position) {
-	    	return 0;
+	    	return objects.get(position).id;
+	    }
+	    
+	    @Override
+	    public MuscleListItem getItem(int position) {
+	    	return super.getItem(position);
 	    }
 
 	    @Override
