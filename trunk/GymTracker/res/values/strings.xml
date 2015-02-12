@@ -8,15 +8,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string-array name="musclesNames">
-        <item>Pi</item>
-        <item>Tri</item>
-        <item>Shoulders</item>
-        <item>Back</item>
-        <item>Legs</item>
-        <item>Belly</item>
-    </string-array>
-
     <string name="title_activity_musclue_exercises">MusclueExercises</string>
     <string name="title_activity_exercise_details">ExerciseDetails</string>
 
