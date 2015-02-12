@@ -11,14 +11,14 @@
     tools:context="orabi.amr.gymtracker.MusclueExercises" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/muscleName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ListView
-        android:id="@+id/listView2"
+        android:id="@+id/exercises"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
