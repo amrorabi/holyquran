@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class MainActivity extends Activity implements
 		ActionBar.OnNavigationListener {
@@ -51,15 +52,33 @@ public class MainActivity extends Activity implements
 		
 		//my code
 		SQLiteDatabase db = openOrCreateDatabase("gymTrackerDB", MODE_PRIVATE, null);
-		db.execSQL("CREATE TABLE IF NOT EXISTS statistics (id INTEGER, muscle TEXT, exercise TEXT,"
-	            + "max INTEGER, avg INTEGER, exc_times INTEGER);");
+		db.execSQL("create table if not exists muscles (id integer primary key autoincrement, muscle_name text not null,"
+				+ " day_order integer);"); 
 		
-		Cursor query = db.rawQuery("select muscle from statistics", null);
-		List<String> muscleNames = new ArrayList<String>(); 
-		while(query.moveToNext()){
-			muscleNames.add(query.getString(1));
+		db.execSQL("create table if not exists exercises (id integer primary key autoincrement, description text,"
+				+ " max_weight integer, avg_weight integer, exc_times integer, muscle_id integer, "
+				+ " foreign key (muscle_id) references muscles(id));");
+		
+		Cursor query = db.rawQuery("select muscle_name from muscles", null);
+		if(query.getCount() == 0){
+			db.execSQL("insert into muscles values(1, \"Pi\", 1);");
+			db.execSQL("insert into muscles values(2, \"Tri\", 2);");
+			db.execSQL("insert into muscles values(3, \"Shoulders\", 3);");
+			db.execSQL("insert into muscles values(4, \"Back\", 4);");
+			db.execSQL("insert into muscles values(5, \"Legs\", 2);");
+			db.execSQL("insert into muscles values(6, \"Belly\", 6);");
+			
+			query = db.rawQuery("select muscle_name from muscles", null);
 		}
+		
+		List<String> muscleNames = new ArrayList<String>();
+		while(query.moveToNext()){
+			muscleNames.add(query.getString(0));
+		}
+		
 		muscleArrayAdapter adapter = new muscleArrayAdapter(this, android.R.layout.simple_list_item_1, muscleNames);
+		ListView MainList = (ListView) findViewById(R.id.musclesList);
+		MainList.setAdapter(adapter);
 	}
 
 	@Override
@@ -135,7 +154,7 @@ public class MainActivity extends Activity implements
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,
+			View rootView = inflater.inflate(R.layout.activity_main, container,
 					false);
 			return rootView;
 		}
