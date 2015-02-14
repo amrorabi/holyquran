@@ -3,15 +3,12 @@ package orabi.amr.gymtracker;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.gymtracker.R;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import orabi.amr.gymtracker.R;
+
 public class MainActivity extends Activity implements
 		ActionBar.OnNavigationListener {
 
@@ -30,6 +29,7 @@ public class MainActivity extends Activity implements
 	 * current dropdown position.
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
+	private ListView mainList;
 
 
 	@Override
@@ -53,45 +53,32 @@ public class MainActivity extends Activity implements
 								getString(R.string.title_section3), }), this);
 		
 		//my code
-		SQLiteDatabase db = openOrCreateDatabase("gymTrackerDB", MODE_PRIVATE, null);
-		db.execSQL("create table if not exists muscles (id integer primary key autoincrement, muscle_name text not null,"
-				+ " day_order integer);"); 
+		DBHelper dbHelper = DBHelper.getHelperInstance(this);
+		String query1 = "select id, muscle_name from muscles";
 		
-		db.execSQL("create table if not exists exercises (id integer primary key autoincrement, description text,"
-				+ " max_weight integer, avg_weight integer, exc_times integer, muscle_id integer, "
-				+ " foreign key (muscle_id) references muscles(id));");
-		
-		Cursor query = db.rawQuery("select muscle_name from muscles", null);
-		if(query.getCount() == 0){
-			db.execSQL("insert into muscles values(1, \"Pi\", 1);");
-			db.execSQL("insert into muscles values(2, \"Tri\", 2);");
-			db.execSQL("insert into muscles values(3, \"Shoulders\", 3);");
-			db.execSQL("insert into muscles values(4, \"Back\", 4);");
-			db.execSQL("insert into muscles values(5, \"Legs\", 2);");
-			db.execSQL("insert into muscles values(6, \"Belly\", 6);");
-			
-			query = db.rawQuery("select muscle_name from muscles", null);
-		}
-		
-		List<MuscleListItem> muscleNames = new ArrayList<MuscleListItem>();
-		while(query.moveToNext()){
-			MuscleListItem item = new MuscleListItem();
-			item.id = query.getInt(0);
-			item.name = query.getString(1);
+		Cursor cursor = dbHelper.getReadableDatabase().rawQuery(query1, null);
+		List<ListItem> muscleNames = new ArrayList<ListItem>();
+		while(cursor.moveToNext()){
+			ListItem item = new ListItem();
+			item.id = cursor.getInt(0);
+			item.name = cursor.getString(1);
 			muscleNames.add(item);
 		}
 		
 		MuscleArrayAdapter adapter = new MuscleArrayAdapter(this, android.R.layout.simple_list_item_1, muscleNames);
-		ListView mainList = (ListView) findViewById(R.id.musclesList);
+		mainList = (ListView) findViewById(R.id.musclesList);
 		mainList.setAdapter(adapter);
 		
 		mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+
+				ListItem muscle = (ListItem) mainList.getItemAtPosition(position);
 				Intent i = new Intent(MainActivity.this, MusclueExercises.class);
-				i.putExtra("muscleId", id);
-				 startActivity(i);
+				i.putExtra("muscleItem", muscle);
+				startActivity(i);
+				 
 			}
 
 		});
@@ -176,17 +163,12 @@ public class MainActivity extends Activity implements
 		}
 	}
 	
-	private class MuscleListItem{
-		int id;
-		String name;
-	}
-	
-	private class MuscleArrayAdapter extends ArrayAdapter<MuscleListItem> {
+	private class MuscleArrayAdapter extends ArrayAdapter<ListItem> {
 		
-		private List<MuscleListItem> objects;
+		private List<ListItem> objects;
 
 	    public MuscleArrayAdapter(Context context, int textViewResourceId,
-	        List<MuscleListItem> objects) {
+	        List<ListItem> objects) {
 	      super(context, textViewResourceId, objects);
 	      this.objects = objects;
 	    }
@@ -197,7 +179,7 @@ public class MainActivity extends Activity implements
 	    }
 	    
 	    @Override
-	    public MuscleListItem getItem(int position) {
+	    public ListItem getItem(int position) {
 	    	return super.getItem(position);
 	    }
 
