@@ -17,11 +17,24 @@
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <ListView
-        android:id="@+id/exercises"
+    <TextView
+        android:id="@+id/noItemsMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You didn&apos;t add any records"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+   <LinearLayout
+            android:id="@+id/inscrollview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
 
-    </ListView>
+    <Button
+        android:id="@+id/addNewEx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New Exercise" />
 
 </LinearLayout>

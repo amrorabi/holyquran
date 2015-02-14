@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.gymtracker"
+    package="orabi.amr.gymtracker"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="19"
         android:targetSdkVersion="21" />
+    
+    <uses-feature android:name="android.hardware.camera"
+                  android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -28,11 +31,19 @@
             android:parentActivityName="orabi.amr.gymtracker.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.gymtracker.MainActivity" />
+                android:value="orabi.amr.gymtracker.MainActivity" />
         </activity>
         <activity
-            android:name=".ExerciseDetails"
+            android:name="orabi.amr.gymtracker.ExerciseDetails"
             android:label="@string/title_activity_exercise_details"
+            android:parentActivityName="orabi.amr.gymtracker.MusclueExercises" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="orabi.amr.gymtracker.MusclueExercises" />
+        </activity>
+        <activity
+            android:name="orabi.amr.gymtracker.AddExerciseActivity"
+            android:label="@string/title_activity_add_exercise"
             android:parentActivityName="orabi.amr.gymtracker.MusclueExercises" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

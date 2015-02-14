@@ -1,4 +1,4 @@
-package com.example.gymtracker;
+package orabi.amr.gymtracker;
 
 import android.app.Activity;
 import android.os.Bundle;
