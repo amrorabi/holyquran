@@ -1,31 +1,24 @@
 package orabi.amr.gymtracker;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
-import android.graphics.Path.Direction;
-import android.graphics.drawable.GradientDrawable.Orientation;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import orabi.amr.gymtracker.R;
 
 public class MusclueExercises extends Activity {
 	private ListItem item;
 	LinearLayout inScrollView;
+	private Integer exeId;
+	private String exeName;
+	private byte[] exePhoto;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,22 +40,34 @@ public class MusclueExercises extends Activity {
 			noItemsMsg.setVisibility(View.GONE);
 			
 			while(cursor.moveToNext()){
-				int id = cursor.getInt(0);
-				String name = cursor.getString(1);
-				byte[] photo = cursor.getBlob(2);
+				exeId = cursor.getInt(0);
+				exeName = cursor.getString(1);
+				exePhoto = cursor.getBlob(2);
 				
 				LinearLayout exeItem = new LinearLayout(this);
-				if(photo != null){
+				if(exePhoto != null){
 					 ImageView imageView = new ImageView(this);
 				     imageView.setImageResource(R.drawable.ic_launcher);
-				     imageView.setImageBitmap(BitmapFactory.decodeByteArray(photo, 0, photo.length));
+				     imageView.setImageBitmap(BitmapFactory.decodeByteArray(exePhoto, 0, exePhoto.length));
 				     exeItem.addView(imageView);
 				}
-				if(name != null){
+				if(exeName != null){
 					TextView exName = new TextView(this);
-					exName.setText(name);
+					exName.setText(exeName);
 					exeItem.addView(exName);
 				}
+				exeItem.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+						Intent i = new Intent(MusclueExercises.this, ExerciseDetails.class);
+						ListItem exeItem = new ListItem();
+						exeItem.id = exeId;
+						exeItem.name = exeName;
+						exeItem.photo = exePhoto;
+						i.putExtra("exeItem", exeItem);
+						startActivity(i);
+					}
+				});
 				inScrollView.addView(exeItem);
 			}
 			cursor.close();
