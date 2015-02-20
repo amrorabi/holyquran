@@ -17,7 +17,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/exPhotoDetails"
         android:layout_width="274dp"
         android:layout_height="150dp"
         android:layout_x="14dp"
@@ -43,11 +43,11 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/maxWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
-                android:text="30"
+                android:text=""
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
         </TableRow>
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
-                android:text="25"
+                android:text=""
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </TableRow>
 
@@ -124,7 +124,7 @@
             android:layout_height="wrap_content" >
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/maxInputValue"
                 android:layout_width="wrap_content"
                 android:layout_height="80dp"
                 android:ems="10"
@@ -132,7 +132,7 @@
                 android:text="Today max weight..." />
 
             <ImageButton
-                android:id="@+id/imageButton1"
+                android:id="@+id/addMaxBtn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
