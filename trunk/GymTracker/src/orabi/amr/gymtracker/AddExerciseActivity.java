@@ -1,6 +1,7 @@
 package orabi.amr.gymtracker;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 public class AddExerciseActivity extends Activity {
 	
 	static final int REQUEST_IMAGE_CAPTURE = 1;
+	static final int REQUEST_IMAGE_File = 2;
 
 	private DBHelper dbHelper;
 	private ListItem item;
@@ -46,6 +49,16 @@ public class AddExerciseActivity extends Activity {
 			}
 		});
 		
+		//Browse action
+		Button browseBtn = (Button) findViewById(R.id.browseBtn);
+		browseBtn.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(AddExerciseActivity.this, ListFileActivity.class);
+				startActivityForResult(i, REQUEST_IMAGE_File);
+			}
+		});
+		
 		//save all button action
 		Button saveAllBtn = (Button) findViewById(R.id.saveAllBtn);
 		saveAllBtn.setOnClickListener(new View.OnClickListener() {
@@ -54,14 +67,14 @@ public class AddExerciseActivity extends Activity {
 				TextView exName = (TextView) findViewById(R.id.exName);		//name
 				byte[] data = getBitmapAsByteArray(imageBitmap);			//photo
 				
-//				dbHelper.getWritableDatabase().execSQL(
-//						"insert into exercises(exe_name, muscle_id, photo) values(?,?,?)",
-//						new String[]{exName.getText().toString(), "" + item.id, "" + data});
-				
 				ContentValues params = new ContentValues();
 				params.put("exe_name", exName.getText().toString());
 				params.put("muscle_id", item.id);
 				params.put("photo", data);
+				params.put("exc_times", 0);
+				params.put("avg_weight", 0);
+				params.put("max_weight", 0);
+				params.put("notes", "");
 				long result = dbHelper.getWritableDatabase().insert("exercises", null, params);
 				Log.e("inserted row #:", "" + result);
 				
@@ -111,15 +124,32 @@ public class AddExerciseActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		
-		if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-	        Bundle extras = data.getExtras();
-	        imageBitmap = (Bitmap) extras.get("data");
-	        ImageView exPhoto = (ImageView) findViewById(R.id.exPhoto);
+		Log.e("photooooooooo resultttt ", "");
+		
+		if(resultCode == RESULT_OK){
+			if (requestCode == REQUEST_IMAGE_CAPTURE) {
+		        Bundle extras = data.getExtras();
+		        imageBitmap = (Bitmap) extras.get("data");
+		    }
+			else{											// if (requestCode == REQUEST_IMAGE_File) {
+				Bundle extras = data.getExtras();
+		        String photoPath = (String) extras.get("photoPath");
+		        imageBitmap = getImageFromFile(photoPath);
+			}
+			
+			Log.e("photooooooooo", "" + imageBitmap.getByteCount());
+			ImageView exPhoto = (ImageView) findViewById(R.id.exPhoto);
 	        exPhoto.setImageBitmap(imageBitmap);
-	        
-	        Log.e("photooooooooo", "" + imageBitmap.getByteCount());
-	    }
-
+		}
+	}
+	
+	private Bitmap getImageFromFile(String path){
+		File imgFile = new  File(path);
+		if(imgFile.exists()){
+		    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+		    return myBitmap;
+		}
+		return null;
 	}
 
 	@Override

@@ -10,5 +10,6 @@
     <string name="title_activity_musclue_exercises">MusclueExercises</string>
     <string name="title_activity_exercise_details">ExerciseDetails</string>
     <string name="title_activity_add_exercise">Add New Exercise</string>
+    <string name="title_activity_list_file">ListFile</string>
 
 </resources>
