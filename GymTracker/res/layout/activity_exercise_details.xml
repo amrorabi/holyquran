@@ -66,7 +66,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/TextView02"
+                android:id="@+id/avgWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
@@ -95,26 +95,12 @@
             android:layout_height="wrap_content" >
 
             <EditText
-                android:id="@+id/editText1"
-                android:layout_width="wrap_content"
+                android:id="@+id/notes"
+                android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="ملاحظاتي هنا" />
-
-            <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="0dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:padding="20dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/plus" />
+                android:hint="any notes !"
+                android:inputType="textMultiLine" />
 
         </TableRow>
 
@@ -128,10 +114,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="80dp"
                 android:ems="10"
-                android:inputType="phone"
-                android:text="Today max weight..." />
+                android:hint="Today max weight..."
+                android:inputType="phone" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/addMaxBtn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -140,10 +126,8 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="0dp"
                 android:layout_weight="1"
-                android:adjustViewBounds="true"
                 android:padding="20dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/plus" />
+                android:text="save all" />
 
         </TableRow>
 

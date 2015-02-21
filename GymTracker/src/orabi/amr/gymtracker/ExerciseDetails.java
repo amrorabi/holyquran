@@ -8,7 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ public class ExerciseDetails extends Activity {
 
 	private ListItem exeItem;
 	private DBHelper dbHelper;
+	private TextView maxWeight;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,22 +36,38 @@ public class ExerciseDetails extends Activity {
 		
 		dbHelper = DBHelper.getHelperInstance(ExerciseDetails.this);
 		
-		Cursor cursor = dbHelper.getReadableDatabase().rawQuery("select max_weight from exercises where id = ?", new String[]{"" + exeItem.id});
-		TextView maxWeight = (TextView) findViewById(R.id.maxWeight);
+		Cursor cursor = dbHelper.getReadableDatabase().rawQuery("select max_weight, avg_weight, notes from exercises where id = ?", new String[]{"" + exeItem.id});
+		maxWeight = (TextView) findViewById(R.id.maxWeight);
+		TextView avgWeight = (TextView) findViewById(R.id.avgWeight);
+		EditText notes = (EditText) findViewById(R.id.notes);
 		if(cursor.moveToFirst()){
 			maxWeight.setText("" + cursor.getInt(0));
-		}
+			avgWeight.setText("" + cursor.getInt(1));
+			notes.setText("" + cursor.getString(2));
+		} 
 		cursor.close();
 		
 		//events
-		ImageButton addMaxBtn = (ImageButton) findViewById(R.id.addMaxBtn);
+		Button addMaxBtn = (Button) findViewById(R.id.addMaxBtn);
 		addMaxBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				TextView maxInputValue = (TextView) findViewById(R.id.maxInputValue);
+				EditText maxInputValue = (EditText) findViewById(R.id.maxInputValue);
+				EditText notes = (EditText) findViewById(R.id.notes);
 				if(maxInputValue.getText() != null && maxInputValue.getText().toString().trim().length() > 0){
-					dbHelper.getWritableDatabase().execSQL("update exercises set max_weight = " + maxInputValue.getText().toString().trim() + 
+					String mw = maxInputValue.getText().toString().trim();
+					int currentMax = Integer.parseInt(mw);
+					int prevMax = Integer.parseInt(maxWeight.getText().toString());
+					int max = prevMax > currentMax? prevMax : currentMax;
+					
+					dbHelper.getWritableDatabase().execSQL("update exercises set max_weight = " + max + 
+							" , exc_times = (exc_times + 1), avg_weight = ((avg_weight * exc_times +" + currentMax + ") / (exc_times + 1)), "
+							+ " notes = '" + notes.getText() + "'" +
 							" where id = " + exeItem.id);
+					
+					//refresh view
+					finish();
+					startActivity(getIntent());
 				}
 			}
 		});
