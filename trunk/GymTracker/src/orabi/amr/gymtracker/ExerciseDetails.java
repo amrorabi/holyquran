@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class ExerciseDetails extends Activity {
 
-	private ListItem exeItem;
+	private int exeItemId;
 	private DBHelper dbHelper;
 	private TextView maxWeight;
 
@@ -26,24 +26,27 @@ public class ExerciseDetails extends Activity {
 		
 		Intent i = getIntent();
 		
-		exeItem = (ListItem) i.getSerializableExtra("exeItem");
-		
-		TextView exNameLabel = (TextView) findViewById(R.id.exNameLabel);
-		exNameLabel.setText(exeItem.name);
-		
-		ImageView exPhotoDetails = (ImageView) findViewById(R.id.exPhotoDetails);
-		exPhotoDetails.setImageBitmap(BitmapFactory.decodeByteArray(exeItem.photo, 0, exeItem.photo.length));
+		exeItemId = i.getIntExtra("exeItemId", 0);
 		
 		dbHelper = DBHelper.getHelperInstance(ExerciseDetails.this);
 		
-		Cursor cursor = dbHelper.getReadableDatabase().rawQuery("select max_weight, avg_weight, notes from exercises where id = ?", new String[]{"" + exeItem.id});
+		Cursor cursor = dbHelper.getReadableDatabase().rawQuery("select exe_name, max_weight, avg_weight, notes, photo from exercises where id = ?",
+				new String[]{"" + exeItemId});
+		
+		TextView exNameLabel = (TextView) findViewById(R.id.exNameLabel);
+		ImageView exPhotoDetails = (ImageView) findViewById(R.id.exPhotoDetails);
 		maxWeight = (TextView) findViewById(R.id.maxWeight);
 		TextView avgWeight = (TextView) findViewById(R.id.avgWeight);
 		EditText notes = (EditText) findViewById(R.id.notes);
+		
 		if(cursor.moveToFirst()){
-			maxWeight.setText("" + cursor.getInt(0));
-			avgWeight.setText("" + cursor.getInt(1));
-			notes.setText("" + cursor.getString(2));
+			exNameLabel.setText(cursor.getString(0));
+			maxWeight.setText("" + cursor.getInt(1));
+			avgWeight.setText("" + cursor.getInt(2));
+			notes.setText(cursor.getString(3));
+			byte[] photo = cursor.getBlob(4);
+			if(photo != null)
+				exPhotoDetails.setImageBitmap(BitmapFactory.decodeByteArray(photo, 0, photo.length));
 		} 
 		cursor.close();
 		
@@ -63,7 +66,7 @@ public class ExerciseDetails extends Activity {
 					dbHelper.getWritableDatabase().execSQL("update exercises set max_weight = " + max + 
 							" , exc_times = (exc_times + 1), avg_weight = ((avg_weight * exc_times +" + currentMax + ") / (exc_times + 1)), "
 							+ " notes = '" + notes.getText() + "'" +
-							" where id = " + exeItem.id);
+							" where id = " + exeItemId);
 					
 					//refresh view
 					finish();

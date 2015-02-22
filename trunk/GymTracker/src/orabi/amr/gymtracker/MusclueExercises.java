@@ -48,6 +48,7 @@ public class MusclueExercises extends Activity {
 				
 				LinearLayout exeItem = new LinearLayout(this);
 				exeItem.setMinimumHeight(180);
+				exeItem.setId(exeId);
 				
 				if(exePhoto != null){
 					 ImageView imageView = new ImageView(this);
@@ -70,11 +71,7 @@ public class MusclueExercises extends Activity {
 					@Override
 					public void onClick(View arg0) {
 						Intent i = new Intent(MusclueExercises.this, ExerciseDetails.class);
-						ListItem exeItem = new ListItem();
-						exeItem.id = exeId;
-						exeItem.name = exeName;
-						exeItem.photo = exePhoto;
-						i.putExtra("exeItem", exeItem);
+						i.putExtra("exeItemId", arg0.getId());
 						startActivity(i);
 					}
 				});
