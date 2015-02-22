@@ -69,8 +69,7 @@ public class ListFileActivity extends ListActivity {
 	    if (file.isDirectory()) {
 	      Intent intent = new Intent(this, ListFileActivity.class);
 	      intent.putExtra("path", filename);
-	      finish();
-	      startActivity(intent);
+	      startActivityForResult(intent, 2);
 	    }
 	    else {
 	    	String extension = MimeTypeMap.getFileExtensionFromUrl(filename);
@@ -86,5 +85,12 @@ public class ListFileActivity extends ListActivity {
 	    		finish();
 	    	}
 	    }
+	  }
+	  
+	  @Override
+		protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+			super.onActivityResult(requestCode, resultCode, data);
+			setResult(resultCode, data);
+			finish();
 	  }
 }
