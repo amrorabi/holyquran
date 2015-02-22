@@ -5,13 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
@@ -28,7 +25,7 @@ public class ListFileActivity extends ListActivity {
 	    setContentView(R.layout.activity_list_files);
 
 	    // Use the current directory as title
-	    path = "/";
+	    path = "/sdcard/";
 	    if (getIntent().hasExtra("path")) {
 	      path = getIntent().getStringExtra("path");
 	    }

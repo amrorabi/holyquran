@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,15 +47,23 @@ public class MusclueExercises extends Activity {
 				exePhoto = cursor.getBlob(2);
 				
 				LinearLayout exeItem = new LinearLayout(this);
+				exeItem.setMinimumHeight(180);
+				
 				if(exePhoto != null){
 					 ImageView imageView = new ImageView(this);
 				     imageView.setImageResource(R.drawable.ic_launcher);
 				     imageView.setImageBitmap(BitmapFactory.decodeByteArray(exePhoto, 0, exePhoto.length));
+				     imageView.setAdjustViewBounds(true);
+				     imageView.setMaxHeight(150);
+				     imageView.setMaxWidth(150);
 				     exeItem.addView(imageView);
 				}
 				if(exeName != null){
 					TextView exName = new TextView(this);
 					exName.setText(exeName);
+					exName.setTextSize(20);
+					exName.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+					exName.setGravity(Gravity.CENTER_HORIZONTAL);
 					exeItem.addView(exName);
 				}
 				exeItem.setOnClickListener(new View.OnClickListener() {
