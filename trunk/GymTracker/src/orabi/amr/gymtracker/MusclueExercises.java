@@ -63,6 +63,7 @@ public class MusclueExercises extends Activity {
 					 ImageView imageView = new ImageView(this);
 				     imageView.setImageResource(R.drawable.ic_launcher);
 				     imageView.setImageBitmap(BitmapFactory.decodeByteArray(exePhoto, 0, exePhoto.length));
+				     imageView.setLayoutParams(new LayoutParams(150, 150));
 				     imageView.setAdjustViewBounds(true);
 				     imageView.setMaxHeight(150);
 				     imageView.setMaxWidth(150);
