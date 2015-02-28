@@ -59,7 +59,7 @@ public class ExerciseDetails extends Activity {
 				EditText notes = (EditText) findViewById(R.id.notes);
 				if(maxInputValue.getText() != null && maxInputValue.getText().toString().trim().length() > 0){
 					String mw = maxInputValue.getText().toString().trim();
-					int currentMax = Integer.parseInt(mw);
+					int currentMax = (int) Float.parseFloat(mw);
 					int prevMax = Integer.parseInt(maxWeight.getText().toString());
 					int max = prevMax > currentMax? prevMax : currentMax;
 					
