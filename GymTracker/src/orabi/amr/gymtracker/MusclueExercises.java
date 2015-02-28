@@ -1,17 +1,23 @@
 package orabi.amr.gymtracker;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +27,7 @@ public class MusclueExercises extends Activity {
 	private Integer exeId;
 	private String exeName;
 	private byte[] exePhoto;
+	private DBHelper dbHelper;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +38,7 @@ public class MusclueExercises extends Activity {
 		TextView mName = (TextView) findViewById(R.id.muscleName);
 		mName.setText(item.name);
 		
-		DBHelper dbHelper = DBHelper.getHelperInstance(this);
+		dbHelper = DBHelper.getHelperInstance(this);
 		Cursor cursor = dbHelper.getReadableDatabase().rawQuery("select id, exe_name, photo from exercises where muscle_id = ?", new String[]{"" + item.id}); 
 		
 		//Exercises list
@@ -46,7 +53,9 @@ public class MusclueExercises extends Activity {
 				exeName = cursor.getString(1);
 				exePhoto = cursor.getBlob(2);
 				
-				LinearLayout exeItem = new LinearLayout(this);
+				GridLayout exeItem = new GridLayout(this);
+				exeItem.setColumnCount(3);
+				exeItem.setRowCount(1);
 				exeItem.setMinimumHeight(180);
 				exeItem.setId(exeId);
 				
@@ -57,16 +66,49 @@ public class MusclueExercises extends Activity {
 				     imageView.setAdjustViewBounds(true);
 				     imageView.setMaxHeight(150);
 				     imageView.setMaxWidth(150);
-				     exeItem.addView(imageView);
+				     exeItem.addView(imageView, 0);
 				}
 				if(exeName != null){
 					TextView exName = new TextView(this);
 					exName.setText(exeName);
 					exName.setTextSize(20);
-					exName.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+					exName.setLayoutParams(new LayoutParams(700, LayoutParams.WRAP_CONTENT));
 					exName.setGravity(Gravity.CENTER_HORIZONTAL);
-					exeItem.addView(exName);
+					exeItem.addView(exName, 1);
 				}
+				ImageButton imgBtn = new ImageButton(this);
+				imgBtn.setId(exeId);
+				imgBtn.setScaleType(ScaleType.CENTER_CROP);
+				imgBtn.setPadding(0, 0, 0, 0);
+				imgBtn.setImageResource(R.drawable.delete_icon);
+				exeItem.addView(imgBtn, 2);
+				
+				imgBtn.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(final View btn) {
+						new AlertDialog.Builder(MusclueExercises.this)
+				          .setTitle("Warning")
+				          .setMessage("Are you sure ?")
+				          .setCancelable(false)
+				          .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+				              @Override
+				              public void onClick(DialogInterface dialog, int which) {
+				            	  dbHelper.getWritableDatabase().execSQL("delete from exercises where id = " + btn.getId());
+				            	  //refresh view
+				            	  finish();
+				            	  startActivity(getIntent());
+				              }
+				          })
+				          .setNegativeButton("No", new DialogInterface.OnClickListener() {
+				              @Override
+				              public void onClick(DialogInterface dialog, int which) {
+				            	  dialog.dismiss();
+				              }
+				          })
+				         .create().show();
+					}
+				});
+				
 				exeItem.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
