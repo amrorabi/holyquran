@@ -40,10 +40,10 @@ public class MusclueExercises extends Activity {
 		
 		dbHelper = DBHelper.getHelperInstance(this);
 		Cursor cursor = dbHelper.getReadableDatabase().rawQuery("select id, exe_name, photo from exercises where muscle_id = ?", new String[]{"" + item.id}); 
+		inScrollView = (LinearLayout)findViewById(R.id.inscrollview);
 		
 		//Exercises list
 		if(cursor.getCount() > 0){
-	        inScrollView = (LinearLayout)findViewById(R.id.inscrollview);
 			
 			TextView noItemsMsg = (TextView) findViewById(R.id.noItemsMsg);
 			noItemsMsg.setVisibility(View.GONE);
@@ -89,7 +89,7 @@ public class MusclueExercises extends Activity {
 					public void onClick(final View btn) {
 						new AlertDialog.Builder(MusclueExercises.this)
 				          .setTitle("Warning")
-				          .setMessage("Are you sure ?")
+				          .setMessage("deleting this exercise ?")
 				          .setCancelable(false)
 				          .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 				              @Override
@@ -124,7 +124,9 @@ public class MusclueExercises extends Activity {
 		}
 		
 		//Add new button
-		Button addNewEx = (Button) findViewById(R.id.addNewEx);
+		Button addNewEx = new Button(this);
+		addNewEx.setText("Add New Exercise");
+		addNewEx.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		addNewEx.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -133,6 +135,7 @@ public class MusclueExercises extends Activity {
 				startActivity(i);
 			}
 		});
+		inScrollView.addView(addNewEx);
 	}
 
 	@Override
