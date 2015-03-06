@@ -18,6 +18,7 @@ public class ExerciseDetails extends Activity {
 	private int exeItemId;
 	private DBHelper dbHelper;
 	private TextView maxWeight;
+	private EditText maxInputValue;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,8 @@ public class ExerciseDetails extends Activity {
 		maxWeight = (TextView) findViewById(R.id.maxWeight);
 		TextView avgWeight = (TextView) findViewById(R.id.avgWeight);
 		EditText notes = (EditText) findViewById(R.id.notes);
+		maxInputValue = (EditText) findViewById(R.id.maxInputValue);
+		maxInputValue.requestFocus();
 		
 		if(cursor.moveToFirst()){
 			exNameLabel.setText(cursor.getString(0));
@@ -55,7 +58,6 @@ public class ExerciseDetails extends Activity {
 		addMaxBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				EditText maxInputValue = (EditText) findViewById(R.id.maxInputValue);
 				EditText notes = (EditText) findViewById(R.id.notes);
 				if(maxInputValue.getText() != null && maxInputValue.getText().toString().trim().length() > 0){
 					String mw = maxInputValue.getText().toString().trim();
