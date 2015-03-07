@@ -1,10 +1,12 @@
 package orabi.amr.gymtracker;
 
+import orabi.amr.gymtracker.util.LayoutUtil;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,13 +31,11 @@ public class ExerciseDetails extends Activity {
 		
 		exeItemId = i.getIntExtra("exeItemId", 0);
 		
-		dbHelper = DBHelper.getHelperInstance(ExerciseDetails.this);
-		
-		Cursor cursor = dbHelper.getReadableDatabase().rawQuery("select exe_name, max_weight, avg_weight, notes, photo from exercises where id = ?",
-				new String[]{"" + exeItemId});
-		
 		TextView exNameLabel = (TextView) findViewById(R.id.exNameLabel);
 		ImageView exPhotoDetails = (ImageView) findViewById(R.id.exPhotoDetails);
+		
+		Cursor cursor = LayoutUtil.prepareExerciseDataUI(this, exeItemId, exNameLabel, exPhotoDetails);
+		
 		maxWeight = (TextView) findViewById(R.id.maxWeight);
 		TextView avgWeight = (TextView) findViewById(R.id.avgWeight);
 		EditText notes = (EditText) findViewById(R.id.notes);
@@ -43,13 +43,9 @@ public class ExerciseDetails extends Activity {
 		maxInputValue.requestFocus();
 		
 		if(cursor.moveToFirst()){
-			exNameLabel.setText(cursor.getString(0));
 			maxWeight.setText("" + cursor.getInt(1));
 			avgWeight.setText("" + cursor.getInt(2));
 			notes.setText(cursor.getString(3));
-			byte[] photo = cursor.getBlob(4);
-			if(photo != null)
-				exPhotoDetails.setImageBitmap(BitmapFactory.decodeByteArray(photo, 0, photo.length));
 		} 
 		cursor.close();
 		
@@ -82,6 +78,8 @@ public class ExerciseDetails extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.exercise_details, menu);
+		menu.clear();
+		menu.add("Edit");
 		return true;
 	}
 
@@ -91,7 +89,12 @@ public class ExerciseDetails extends Activity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		Log.e("teeeeeeeeeeet: ", "" + id);
+		if (id == 0) {
+			Intent i = new Intent(this, AddExerciseActivity.class);
+			i.putExtra("exeItemId", exeItemId);
+			finish();
+			startActivity(i);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

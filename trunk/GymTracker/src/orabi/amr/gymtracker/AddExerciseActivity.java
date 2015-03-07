@@ -3,6 +3,7 @@ package orabi.amr.gymtracker;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
+import orabi.amr.gymtracker.util.LayoutUtil;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -26,9 +27,13 @@ public class AddExerciseActivity extends Activity {
 	static final int REQUEST_IMAGE_CAPTURE = 1;
 	static final int REQUEST_IMAGE_File = 2;
 
+	private int exeItemId;
 	private DBHelper dbHelper;
 	private ListItem item;
 	private Bitmap imageBitmap;
+	private TextView exName;
+	private ImageView exPhoto;
+	private boolean isUpdate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +42,19 @@ public class AddExerciseActivity extends Activity {
 		
 		imageBitmap = null;
 		dbHelper = DBHelper.getHelperInstance(this);
+		exName = (TextView) findViewById(R.id.exName);		//name
+		exPhoto = (ImageView) findViewById(R.id.exPhoto);   //photo
 		
-		item = (ListItem) getIntent().getSerializableExtra("muscleItem");
+		exeItemId = getIntent().getIntExtra("exeItemId", 0);
+		
+		if(exeItemId != 0){
+			isUpdate = true;
+			LayoutUtil.prepareExerciseDataUI(this, exeItemId, exName, exPhoto);
+		}
+		else{
+			isUpdate = false;
+			item = (ListItem) getIntent().getSerializableExtra("muscleItem");
+		}
 		
 		//Take photo action
 		Button cameraBtn = (Button) findViewById(R.id.cameraBtn);
@@ -63,47 +79,74 @@ public class AddExerciseActivity extends Activity {
 		Button saveAllBtn = (Button) findViewById(R.id.saveAllBtn);
 		saveAllBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				TextView exName = (TextView) findViewById(R.id.exName);		//name
+			public void onClick(View v) {				
 				byte[] data = getBitmapAsByteArray(imageBitmap);			//photo
 				
-				ContentValues params = new ContentValues();
-				params.put("exe_name", exName.getText().toString());
-				params.put("muscle_id", item.id);
-				params.put("photo", data);
-				params.put("exc_times", 0);
-				params.put("avg_weight", 0);
-				params.put("max_weight", 0);
-				params.put("notes", "");
-				long result = dbHelper.getWritableDatabase().insert("exercises", null, params);
-				Log.e("inserted row #:", "" + result);
-				
-				if(result > 0){
-					new AlertDialog.Builder(AddExerciseActivity.this)
-			          .setTitle("Done")
-			          .setMessage("added successfully")
-			          .setCancelable(false)
-			          .setPositiveButton("Add another", new DialogInterface.OnClickListener() {
-			              @Override
-			              public void onClick(DialogInterface dialog, int which) {
-			            	  //TODO clear UI fields
-			            	  dialog.dismiss();
-			              }
-			          })
-			          .setNegativeButton("Back to List", new DialogInterface.OnClickListener() {
-			              @Override
-			              public void onClick(DialogInterface dialog, int which) {
-			            	  Intent i = new Intent(AddExerciseActivity.this, MusclueExercises.class);
-			  				  i.putExtra("muscleItem", item);
-			  				  startActivity(i);
-			              }
-			          })
-			         .create().show();
+				if(isUpdate){
+					updateExercise(data);
+				}
+				else{
+					insertNewExercise(data);
 				}
 			}
 		});
 	}
-	
+
+
+	protected void updateExercise(byte[] data) {
+		ContentValues params = new ContentValues();
+		params.put("exe_name", exName.getText().toString());
+		
+		if(data != null && data.length > 0)
+			params.put("photo", data);
+		
+		long result = dbHelper.getWritableDatabase().update("exercises", params, "id = ?", new String[]{"" + exeItemId});
+		Log.e("updated row #:", "" + result);
+		finish();
+		
+		Intent i = new Intent(this, ExerciseDetails.class);
+		i.putExtra("exeItemId", exeItemId);
+		startActivity(i);
+	}
+
+
+	protected void insertNewExercise(byte[] data) {
+		ContentValues params = new ContentValues();
+		params.put("exe_name", exName.getText().toString());
+		params.put("muscle_id", item.id);
+		params.put("photo", data);
+		params.put("exc_times", 0);
+		params.put("avg_weight", 0);
+		params.put("max_weight", 0);
+		params.put("notes", "");
+		long result = dbHelper.getWritableDatabase().insert("exercises", null, params);
+		Log.e("inserted row #:", "" + result);
+		
+		if(result > 0){
+			new AlertDialog.Builder(AddExerciseActivity.this)
+	          .setTitle("Done")
+	          .setMessage("added successfully")
+	          .setCancelable(false)
+	          .setPositiveButton("Add another", new DialogInterface.OnClickListener() {
+	              @Override
+	              public void onClick(DialogInterface dialog, int which) {
+	            	  //TODO clear UI fields
+	            	  dialog.dismiss();
+	              }
+	          })
+	          .setNegativeButton("Back to List", new DialogInterface.OnClickListener() {
+	              @Override
+	              public void onClick(DialogInterface dialog, int which) {
+	            	  Intent i = new Intent(AddExerciseActivity.this, MusclueExercises.class);
+	  				  i.putExtra("muscleItem", item);
+	  				  startActivity(i);
+	              }
+	          })
+	         .create().show();
+		}
+	}
+
+
 	private byte[] getBitmapAsByteArray(Bitmap bitmap) {
 			if(bitmap == null)
 				return new byte[]{};
@@ -138,7 +181,6 @@ public class AddExerciseActivity extends Activity {
 			}
 			
 			Log.e("photooooooooo", "" + imageBitmap.getByteCount());
-			ImageView exPhoto = (ImageView) findViewById(R.id.exPhoto);
 	        exPhoto.setImageBitmap(imageBitmap);
 		}
 	}
