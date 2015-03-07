@@ -1,12 +1,12 @@
 package orabi.amr.gymtracker;
 
+import java.io.IOException;
+
 import orabi.amr.gymtracker.util.LayoutUtil;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +34,12 @@ public class ExerciseDetails extends Activity {
 		TextView exNameLabel = (TextView) findViewById(R.id.exNameLabel);
 		ImageView exPhotoDetails = (ImageView) findViewById(R.id.exPhotoDetails);
 		
-		Cursor cursor = LayoutUtil.prepareExerciseDataUI(this, exeItemId, exNameLabel, exPhotoDetails);
+		Cursor cursor = null;
+		try {
+			cursor = LayoutUtil.prepareExerciseDataUI(this, exeItemId, exNameLabel, exPhotoDetails);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		maxWeight = (TextView) findViewById(R.id.maxWeight);
 		TextView avgWeight = (TextView) findViewById(R.id.avgWeight);
@@ -42,7 +47,7 @@ public class ExerciseDetails extends Activity {
 		maxInputValue = (EditText) findViewById(R.id.maxInputValue);
 		maxInputValue.requestFocus();
 		
-		if(cursor.moveToFirst()){
+		if(cursor != null && cursor.moveToFirst()){
 			maxWeight.setText("" + cursor.getInt(1));
 			avgWeight.setText("" + cursor.getInt(2));
 			notes.setText(cursor.getString(3));
@@ -89,14 +94,20 @@ public class ExerciseDetails extends Activity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		Log.e("teeeeeeeeeeet: ", "" + id);
 		if (id == 0) {
-			Intent i = new Intent(this, AddExerciseActivity.class);
+			Intent i = new Intent(this, AddEditExercise.class);
 			i.putExtra("exeItemId", exeItemId);
-			finish();
-			startActivity(i);
+			startActivityForResult(i, Constants.EDIT_EXERCISE);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		//refresh after edit info
+		finish();
+		startActivity(getIntent());
 	}
 }

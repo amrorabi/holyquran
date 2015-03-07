@@ -1,5 +1,8 @@
 package orabi.amr.gymtracker;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -25,12 +28,20 @@ public class MusclueExercises extends Activity {
 	LinearLayout inScrollView;
 	private Integer exeId;
 	private String exeName;
-	private byte[] exePhoto;
+	private String exePhotoPath;
 	private DBHelper dbHelper;
+	public static boolean shouldRefresh;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+//		if(!(Thread.getDefaultUncaughtExceptionHandler() instanceof ExceptionHandler)) {
+//	        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+//	    }
+		
+		shouldRefresh = false;
+		
 		setContentView(R.layout.activity_musclue_exercises);
 		
 		item = (ListItem) getIntent().getSerializableExtra("muscleItem");
@@ -38,7 +49,9 @@ public class MusclueExercises extends Activity {
 		mName.setText(item.name);
 		
 		dbHelper = DBHelper.getHelperInstance(this);
-		Cursor cursor = dbHelper.getReadableDatabase().rawQuery("select id, exe_name, photo from exercises where muscle_id = ?", new String[]{"" + item.id}); 
+		
+		Cursor cursor = dbHelper.getReadableDatabase().rawQuery(
+				"select id, exe_name, photo from exercises where muscle_id = ?", new String[]{"" + item.id});
 		inScrollView = (LinearLayout)findViewById(R.id.inscrollview);
 		
 		//Exercises list
@@ -48,9 +61,10 @@ public class MusclueExercises extends Activity {
 			noItemsMsg.setVisibility(View.GONE);
 			
 			while(cursor.moveToNext()){
+				
 				exeId = cursor.getInt(0);
 				exeName = cursor.getString(1);
-				exePhoto = cursor.getBlob(2);
+				exePhotoPath = cursor.getString(2);
 				
 				GridLayout exeItem = new GridLayout(this);
 				exeItem.setColumnCount(3);
@@ -58,15 +72,23 @@ public class MusclueExercises extends Activity {
 				exeItem.setMinimumHeight(180);
 				exeItem.setId(exeId);
 				
-				if(exePhoto != null){
-					 ImageView imageView = new ImageView(this);
-				     imageView.setImageResource(R.drawable.ic_launcher);
-				     imageView.setImageBitmap(BitmapFactory.decodeByteArray(exePhoto, 0, exePhoto.length));
-				     imageView.setLayoutParams(new LayoutParams(150, 150));
-				     imageView.setAdjustViewBounds(true);
-				     imageView.setMaxHeight(150);
-				     imageView.setMaxWidth(150);
-				     exeItem.addView(imageView, 0);
+				int index = 0;
+				
+				if(exePhotoPath != null){
+					try{
+						 FileInputStream fi = openFileInput(exePhotoPath);
+						 ImageView imageView = new ImageView(this);
+					     imageView.setImageResource(R.drawable.ic_launcher);
+					     imageView.setImageBitmap(BitmapFactory.decodeFileDescriptor(fi.getFD()));
+					     imageView.setLayoutParams(new LayoutParams(150, 150));
+					     imageView.setAdjustViewBounds(true);
+					     imageView.setMaxHeight(150);
+					     imageView.setMaxWidth(150);
+					     exeItem.addView(imageView, index);
+					}catch(IOException e){
+						e.printStackTrace();
+					}
+				    index++;
 				}
 				if(exeName != null){
 					TextView exName = new TextView(this);
@@ -74,14 +96,15 @@ public class MusclueExercises extends Activity {
 					exName.setTextSize(20);
 					exName.setLayoutParams(new LayoutParams(700, LayoutParams.WRAP_CONTENT));
 					exName.setGravity(Gravity.CENTER_HORIZONTAL);
-					exeItem.addView(exName, 1);
+					exeItem.addView(exName, index);
+					index++;
 				}
 				ImageButton imgBtn = new ImageButton(this);
 				imgBtn.setId(exeId);
 				imgBtn.setScaleType(ScaleType.CENTER_CROP);
 				imgBtn.setPadding(0, 0, 0, 0);
 				imgBtn.setImageResource(R.drawable.delete_icon);
-				exeItem.addView(imgBtn, 2);
+				exeItem.addView(imgBtn, index);
 				
 				imgBtn.setOnClickListener(new View.OnClickListener() {
 					@Override
@@ -118,9 +141,10 @@ public class MusclueExercises extends Activity {
 					}
 				});
 				inScrollView.addView(exeItem);
+			
 			}
-			cursor.close();
 		}
+		cursor.close();
 		
 		//Add new button
 		Button addNewEx = new Button(this);
@@ -129,9 +153,9 @@ public class MusclueExercises extends Activity {
 		addNewEx.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Intent i = new Intent(MusclueExercises.this, AddExerciseActivity.class);
+				Intent i = new Intent(MusclueExercises.this, AddEditExercise.class);
 				i.putExtra("muscleItem", item);
-				startActivity(i);
+				startActivityForResult(i, Constants.ADD_NEW_EXERCISE);
 			}
 		});
 		inScrollView.addView(addNewEx);
@@ -154,5 +178,24 @@ public class MusclueExercises extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		//refresh
+		if(shouldRefresh){
+			finish();
+			startActivity(getIntent());
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		//refresh after add new exercise
+		finish();
+		startActivity(getIntent());
 	}
 }

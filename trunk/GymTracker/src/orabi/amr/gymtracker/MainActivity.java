@@ -19,8 +19,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import orabi.amr.gymtracker.R;
-
 public class MainActivity extends Activity implements
 		ActionBar.OnNavigationListener {
 
@@ -35,9 +33,15 @@ public class MainActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+//		if(!(Thread.getDefaultUncaughtExceptionHandler() instanceof ExceptionHandler)) {
+//	        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+//	    }
+		
 		setContentView(R.layout.activity_main);
 		
 		DBHelper dbHelper = DBHelper.getHelperInstance(this);
+		
 		String query1 = "select id, muscle_name from muscles";
 		
 		Cursor cursor = dbHelper.getReadableDatabase().rawQuery(query1, null);
