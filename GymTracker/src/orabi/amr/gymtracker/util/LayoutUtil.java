@@ -1,5 +1,8 @@
 package orabi.amr.gymtracker.util;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+
 import orabi.amr.gymtracker.DBHelper;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,7 +13,7 @@ import android.widget.TextView;
 public class LayoutUtil {
 	
 	public static Cursor prepareExerciseDataUI(Context context, int exeItemId, TextView exNameLabel,
-			ImageView exPhotoDetails){
+			ImageView exPhotoDetails) throws IOException{
 		DBHelper dbHelper = DBHelper.getHelperInstance(context);
 		
 		Cursor cursor = dbHelper.getReadableDatabase().rawQuery("select exe_name, max_weight, avg_weight,"
@@ -18,10 +21,13 @@ public class LayoutUtil {
 				new String[]{"" + exeItemId});
 		
 		if(cursor.moveToFirst()){
-			exNameLabel.setText(cursor.getString(0));			
-			byte[] photo = cursor.getBlob(4);
-			if(photo != null)
-				exPhotoDetails.setImageBitmap(BitmapFactory.decodeByteArray(photo, 0, photo.length));
+			exNameLabel.setText(cursor.getString(0));
+			
+			String photoPath = cursor.getString(4);
+			if(photoPath != null){
+				 FileInputStream fi = context.openFileInput(photoPath);
+				 exPhotoDetails.setImageBitmap(BitmapFactory.decodeFileDescriptor(fi.getFD()));
+			}
 		}
 		return cursor;
 //		cursor.close();

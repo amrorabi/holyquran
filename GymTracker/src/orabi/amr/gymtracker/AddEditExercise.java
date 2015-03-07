@@ -1,12 +1,16 @@
 package orabi.amr.gymtracker;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 
 import orabi.amr.gymtracker.util.LayoutUtil;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,7 +26,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class AddExerciseActivity extends Activity {
+public class AddEditExercise extends Activity {
 	
 	static final int REQUEST_IMAGE_CAPTURE = 1;
 	static final int REQUEST_IMAGE_File = 2;
@@ -49,7 +53,11 @@ public class AddExerciseActivity extends Activity {
 		
 		if(exeItemId != 0){
 			isUpdate = true;
-			LayoutUtil.prepareExerciseDataUI(this, exeItemId, exName, exPhoto);
+			try {
+				LayoutUtil.prepareExerciseDataUI(this, exeItemId, exName, exPhoto);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		else{
 			isUpdate = false;
@@ -70,7 +78,7 @@ public class AddExerciseActivity extends Activity {
 		browseBtn.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(AddExerciseActivity.this, ListFileActivity.class);
+				Intent i = new Intent(AddEditExercise.this, ListFileActivity.class);
 				startActivityForResult(i, REQUEST_IMAGE_File);
 			}
 		});
@@ -80,41 +88,46 @@ public class AddExerciseActivity extends Activity {
 		saveAllBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {				
-				byte[] data = getBitmapAsByteArray(imageBitmap);			//photo
+				String fileName = null;
+				try {
+					fileName = writeBitmapToStroage(imageBitmap);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
 				
 				if(isUpdate){
-					updateExercise(data);
+					updateExercise(fileName);
 				}
 				else{
-					insertNewExercise(data);
+					insertNewExercise(fileName);
 				}
 			}
 		});
 	}
 
 
-	protected void updateExercise(byte[] data) {
+	protected void updateExercise(String filePath) {
 		ContentValues params = new ContentValues();
 		params.put("exe_name", exName.getText().toString());
 		
-		if(data != null && data.length > 0)
-			params.put("photo", data);
+		if(filePath != null)
+			params.put("photo", filePath);
 		
 		long result = dbHelper.getWritableDatabase().update("exercises", params, "id = ?", new String[]{"" + exeItemId});
 		Log.e("updated row #:", "" + result);
-		finish();
+
+		MusclueExercises.shouldRefresh = true;
 		
-		Intent i = new Intent(this, ExerciseDetails.class);
-		i.putExtra("exeItemId", exeItemId);
-		startActivity(i);
+		setResult(RESULT_OK, null);
+		finish();
 	}
 
 
-	protected void insertNewExercise(byte[] data) {
+	protected void insertNewExercise(String filePath) {
 		ContentValues params = new ContentValues();
 		params.put("exe_name", exName.getText().toString());
 		params.put("muscle_id", item.id);
-		params.put("photo", data);
+		params.put("photo", filePath);
 		params.put("exc_times", 0);
 		params.put("avg_weight", 0);
 		params.put("max_weight", 0);
@@ -123,7 +136,7 @@ public class AddExerciseActivity extends Activity {
 		Log.e("inserted row #:", "" + result);
 		
 		if(result > 0){
-			new AlertDialog.Builder(AddExerciseActivity.this)
+			new AlertDialog.Builder(AddEditExercise.this)
 	          .setTitle("Done")
 	          .setMessage("added successfully")
 	          .setCancelable(false)
@@ -137,9 +150,8 @@ public class AddExerciseActivity extends Activity {
 	          .setNegativeButton("Back to List", new DialogInterface.OnClickListener() {
 	              @Override
 	              public void onClick(DialogInterface dialog, int which) {
-	            	  Intent i = new Intent(AddExerciseActivity.this, MusclueExercises.class);
-	  				  i.putExtra("muscleItem", item);
-	  				  startActivity(i);
+	            	  setResult(RESULT_OK, null);
+	  				  finish();
 	              }
 	          })
 	         .create().show();
@@ -147,13 +159,15 @@ public class AddExerciseActivity extends Activity {
 	}
 
 
-	private byte[] getBitmapAsByteArray(Bitmap bitmap) {
-			if(bitmap == null)
-				return new byte[]{};
-			
-		    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		    bitmap.compress(CompressFormat.PNG, 0, outputStream);       
-		    return outputStream.toByteArray();
+	private String writeBitmapToStroage(Bitmap bitmap) throws FileNotFoundException {
+		if(bitmap == null)
+			return null;
+ 
+		String fileName = "gt_" + new Date().getTime();
+	    FileOutputStream outputStream = openFileOutput(fileName, Context.MODE_PRIVATE);		//used android method to create file in internal storage
+	    bitmap.compress(CompressFormat.PNG, 0, outputStream);
+	    
+	    return fileName;
 	}
 	
 	private void dispatchTakePictureIntent() {

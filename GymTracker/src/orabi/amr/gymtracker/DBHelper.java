@@ -27,7 +27,7 @@ public class DBHelper extends SQLiteOpenHelper {
 				+ " day_order integer);"); 
 		
 		db.execSQL("create table exercises (id integer primary key autoincrement, exe_name text,"
-				+ " max_weight integer, avg_weight integer, exc_times integer, muscle_id integer not null, notes text, photo blob,"
+				+ " max_weight integer, avg_weight integer, exc_times integer, muscle_id integer not null, notes text, photo text,"
 				+ " foreign key (muscle_id) references muscles(id));");
 		
 		db.execSQL("insert into muscles values(1, \"Pi\", 1);");
