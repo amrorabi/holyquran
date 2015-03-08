@@ -1,18 +1,20 @@
 package orabi.amr.gymtracker;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 
-import orabi.amr.gymtracker.util.LayoutUtil;
+import orabi.amr.gymtracker.util.DBUtil;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -51,13 +53,25 @@ public class AddEditExercise extends Activity {
 		
 		exeItemId = getIntent().getIntExtra("exeItemId", 0);
 		
+		Cursor cursor = null;
+				
 		if(exeItemId != 0){
 			isUpdate = true;
-			try {
-				LayoutUtil.prepareExerciseDataUI(this, exeItemId, exName, exPhoto);
-			} catch (IOException e) {
-				e.printStackTrace();
+			cursor = DBUtil.getExercise(dbHelper, exeItemId);
+			if(cursor.moveToFirst()){
+				exName.setText(cursor.getString(0));
+				String photoPath = cursor.getString(4);
+				if(photoPath != null){
+					 FileInputStream fi;
+					try {
+						fi = openFileInput(photoPath);
+						exPhoto.setImageBitmap(BitmapFactory.decodeFileDescriptor(fi.getFD()));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 			}
+			cursor.close();
 		}
 		else{
 			isUpdate = false;

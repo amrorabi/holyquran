@@ -1,11 +1,13 @@
 package orabi.amr.gymtracker;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 
-import orabi.amr.gymtracker.util.LayoutUtil;
+import orabi.amr.gymtracker.util.DBUtil;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,12 +36,10 @@ public class ExerciseDetails extends Activity {
 		TextView exNameLabel = (TextView) findViewById(R.id.exNameLabel);
 		ImageView exPhotoDetails = (ImageView) findViewById(R.id.exPhotoDetails);
 		
+		dbHelper = DBHelper.getHelperInstance(this);
+		
 		Cursor cursor = null;
-		try {
-			cursor = LayoutUtil.prepareExerciseDataUI(this, exeItemId, exNameLabel, exPhotoDetails);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		cursor = DBUtil.getExercise(dbHelper, exeItemId);
 		
 		maxWeight = (TextView) findViewById(R.id.maxWeight);
 		TextView avgWeight = (TextView) findViewById(R.id.avgWeight);
@@ -48,9 +48,19 @@ public class ExerciseDetails extends Activity {
 		maxInputValue.requestFocus();
 		
 		if(cursor != null && cursor.moveToFirst()){
+			exNameLabel.setText(cursor.getString(0));
 			maxWeight.setText("" + cursor.getInt(1));
 			avgWeight.setText("" + cursor.getInt(2));
 			notes.setText(cursor.getString(3));
+			String photoPath = cursor.getString(4);
+			if(photoPath != null){
+				try {
+					 FileInputStream fi = openFileInput(photoPath);
+					 exPhotoDetails.setImageBitmap(BitmapFactory.decodeFileDescriptor(fi.getFD()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		} 
 		cursor.close();
 		
