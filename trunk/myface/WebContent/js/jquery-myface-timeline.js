@@ -1,6 +1,11 @@
 function loadUserHome(){
+	appendToTimeLine("https://graph.facebook.com/v2.1/me/home?access_token=" + sessionStorage.getItem("accessToken"));
+
+}
+
+function appendToTimeLine(targetUrl){
 	$.ajax({
-		url : "https://graph.facebook.com/v2.1/me/home?access_token=" + sessionStorage.getItem("accessToken"),
+		url : targetUrl,
 		type : "GET",
 		Accept : 'application/json',
 		contentType : 'application/json',
@@ -23,12 +28,13 @@ function loadUserHome(){
 				$('#timeline').append(timeLineItem);
 			});
 			
+			$('#nextBtn').attr('href', data.paging.next);
+			
 			//start shorten plugin ("read more")
 //			$(".short-text").each(shorten());
 
 		}
 	});
-
 }
 
 function getToNames(data){
@@ -192,5 +198,12 @@ function homeActions(){
 					$('#photoDiv').modal({ keyboard: false });
 				}
 			});
+	   });
+	   
+	   //next button		
+	   $("#nextBtn").click(function(e){	
+			e.preventDefault();
+			var nextUrl = $(this).attr("href");
+			appendToTimeLine(nextUrl);
 	   });
 }
