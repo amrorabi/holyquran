@@ -2,13 +2,18 @@ package orabi.amr.gymtracker;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 
+import orabi.amr.gymtracker.util.DBUtil;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -51,7 +56,7 @@ public class MusclueExercises extends Activity {
 		dbHelper = DBHelper.getHelperInstance(this);
 		
 		Cursor cursor = dbHelper.getReadableDatabase().rawQuery(
-				"select id, exe_name, photo from exercises where muscle_id = ?", new String[]{"" + item.id});
+				"select id, exe_name, photo, last_time from exercises where muscle_id = ?", new String[]{"" + item.id});
 		inScrollView = (LinearLayout)findViewById(R.id.inscrollview);
 		
 		//Exercises list
@@ -71,6 +76,22 @@ public class MusclueExercises extends Activity {
 				exeItem.setRowCount(1);
 				exeItem.setMinimumHeight(180);
 				exeItem.setId(exeId);
+				
+				String lastTime = cursor.getString(3);
+				if(lastTime != null){
+					try {
+						Date lt = DBUtil.formatter.parse(lastTime);
+						Calendar current = Calendar.getInstance();
+						current.set(Calendar.HOUR, 0);
+						current.set(Calendar.MINUTE, 0);
+						current.set(Calendar.SECOND, 0);
+						current.set(Calendar.MILLISECOND, 0);
+						if(lt.compareTo(current.getTime()) == 0)
+							exeItem.setBackgroundColor(Color.LTGRAY);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				}
 				
 				int index = 0;
 				

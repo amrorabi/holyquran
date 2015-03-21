@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
 	
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 	private static final String DATABASE_NAME = "gymTrackerDB";
 	private static  DBHelper HELPER;
 
@@ -28,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		
 		db.execSQL("create table exercises (id integer primary key autoincrement, exe_name text,"
 				+ " max_weight integer, avg_weight integer, exc_times integer, muscle_id integer not null, notes text, photo text,"
-				+ " foreign key (muscle_id) references muscles(id));");
+				+ " last_time text, foreign key (muscle_id) references muscles(id));");
 		
 		db.execSQL("insert into muscles values(1, \"Pi\", 1);");
 		db.execSQL("insert into muscles values(2, \"Tri\", 2);");
@@ -40,9 +40,8 @@ public class DBHelper extends SQLiteOpenHelper {
 	}
 
 	@Override
-	public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
-		// TODO Auto-generated method stub
-
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		db.execSQL("alter table exercises add last_time text"); 
 	}
 
 }
