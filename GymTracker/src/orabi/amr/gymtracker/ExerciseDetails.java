@@ -2,6 +2,7 @@ package orabi.amr.gymtracker;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Date;
 
 import orabi.amr.gymtracker.util.DBUtil;
 import android.app.Activity;
@@ -42,7 +43,7 @@ public class ExerciseDetails extends Activity {
 		cursor = DBUtil.getExercise(dbHelper, exeItemId);
 		
 		maxWeight = (TextView) findViewById(R.id.maxWeight);
-		TextView avgWeight = (TextView) findViewById(R.id.avgWeight);
+		TextView lastTime = (TextView) findViewById(R.id.lastTime);
 		EditText notes = (EditText) findViewById(R.id.notes);
 		maxInputValue = (EditText) findViewById(R.id.maxInputValue);
 		maxInputValue.requestFocus();
@@ -50,7 +51,7 @@ public class ExerciseDetails extends Activity {
 		if(cursor != null && cursor.moveToFirst()){
 			exNameLabel.setText(cursor.getString(0));
 			maxWeight.setText("" + cursor.getInt(1));
-			avgWeight.setText("" + cursor.getInt(2));
+			lastTime.setText(cursor.getString(2));
 			notes.setText(cursor.getString(3));
 			String photoPath = cursor.getString(4);
 			if(photoPath != null){
@@ -77,9 +78,12 @@ public class ExerciseDetails extends Activity {
 					int max = prevMax > currentMax? prevMax : currentMax;
 					
 					dbHelper.getWritableDatabase().execSQL("update exercises set max_weight = " + max + 
-							" , exc_times = (exc_times + 1), avg_weight = ((avg_weight * exc_times +" + currentMax + ") / (exc_times + 1)), "
+							" , exc_times = (exc_times + 1), avg_weight = ((avg_weight * exc_times +" + currentMax + ") / (exc_times + 1)),"
+							+ " last_time = '" + DBUtil.formatter.format(new Date()) + "',"
 							+ " notes = '" + notes.getText() + "'" +
 							" where id = " + exeItemId);
+					
+					MusclueExercises.shouldRefresh = true;		//to set the color of this item in the list
 					
 					//refresh view
 					finish();
