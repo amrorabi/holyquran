@@ -79,18 +79,9 @@ public class MusclueExercises extends Activity {
 				
 				String lastTime = cursor.getString(3);
 				if(lastTime != null){
-					try {
-						Date lt = DBUtil.formatter.parse(lastTime);
-						Calendar current = Calendar.getInstance();
-						current.set(Calendar.HOUR, 0);
-						current.set(Calendar.MINUTE, 0);
-						current.set(Calendar.SECOND, 0);
-						current.set(Calendar.MILLISECOND, 0);
-						if(lt.compareTo(current.getTime()) == 0)
-							exeItem.setBackgroundColor(Color.LTGRAY);
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
+					String currentTime = DBUtil.formatter.format(new Date());
+					if(lastTime.equals(currentTime))
+						exeItem.setBackgroundColor(Color.LTGRAY);
 				}
 				
 				int index = 0;
