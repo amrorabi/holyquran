@@ -100,7 +100,8 @@
                 android:layout_height="80dp"
                 android:ems="10"
                 android:hint="any notes !"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:maxLength="100" />
 
         </TableRow>
 
@@ -115,7 +116,8 @@
                 android:layout_height="80dp"
                 android:ems="10"
                 android:hint="Today max weight..."
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:maxLength="3" />
 
             <Button
                 android:id="@+id/addMaxBtn"
