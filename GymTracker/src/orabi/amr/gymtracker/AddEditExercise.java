@@ -157,7 +157,9 @@ public class AddEditExercise extends Activity {
 	          .setPositiveButton("Add another", new DialogInterface.OnClickListener() {
 	              @Override
 	              public void onClick(DialogInterface dialog, int which) {
-	            	  //TODO clear UI fields
+	            	  //clear UI fields
+	            	  exName.setText(null);
+	            	  exPhoto.setImageBitmap(null);
 	            	  dialog.dismiss();
 	              }
 	          })
