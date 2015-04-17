@@ -98,10 +98,12 @@ public class AddEditExercise extends Activity {
 		});
 		
 		//save all button action
-		Button saveAllBtn = (Button) findViewById(R.id.saveAllBtn);
+		final Button saveAllBtn = (Button) findViewById(R.id.saveAllBtn);
+		
 		saveAllBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {				
+			public void onClick(View v) {
+				saveAllBtn.setEnabled(false);
 				String fileName = null;
 				try {
 					fileName = writeBitmapToStroage(imageBitmap);
@@ -115,6 +117,7 @@ public class AddEditExercise extends Activity {
 				else{
 					insertNewExercise(fileName);
 				}
+				saveAllBtn.setEnabled(true);
 			}
 		});
 	}
