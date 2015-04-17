@@ -39,7 +39,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Max Weight"
+                android:text="Last Weight"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -115,7 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="80dp"
                 android:ems="10"
-                android:hint="Today max weight..."
+                android:hint="Today weight..."
                 android:inputType="phone"
                 android:maxLength="3" />
 

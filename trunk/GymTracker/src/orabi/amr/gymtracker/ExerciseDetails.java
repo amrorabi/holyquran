@@ -74,10 +74,10 @@ public class ExerciseDetails extends Activity {
 				if(maxInputValue.getText() != null && maxInputValue.getText().toString().trim().length() > 0){
 					String mw = maxInputValue.getText().toString().trim();
 					int currentMax = (int) Float.parseFloat(mw);
-					int prevMax = Integer.parseInt(maxWeight.getText().toString());
-					int max = prevMax > currentMax? prevMax : currentMax;
+//					int prevMax = Integer.parseInt(maxWeight.getText().toString());
+//					int max = prevMax > currentMax? prevMax : currentMax;
 					
-					dbHelper.getWritableDatabase().execSQL("update exercises set max_weight = " + max + 
+					dbHelper.getWritableDatabase().execSQL("update exercises set max_weight = " + currentMax + 
 							" , exc_times = (exc_times + 1), avg_weight = ((avg_weight * exc_times +" + currentMax + ") / (exc_times + 1)),"
 							+ " last_time = '" + DBUtil.formatter.format(new Date()) + "',"
 							+ " notes = '" + notes.getText() + "'" +
