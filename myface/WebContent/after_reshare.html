@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="js/jquery-myface-util.js"></script>
+
+<title>reshare result</title>
+</head>
+<body>
+
+<h1 id="errorBox"><h1>
+
+<script lang="JavaScript">
+var code = getParam(window.location.search, "error_code");
+if(code != null && code != "4201"){ 			//error, not canceled
+	var errorMessage = getParam(window.location.search, "error_message");
+	$("errorBox").text(errorMessage);
+}
+else
+	window.close();
+</script>
+
+</body>
+</html>
