@@ -46,3 +46,12 @@ function getTextElement(content) {
 		return content;
 	}
 }
+
+function getParam(queryString, key) 
+{
+	// Find the key and everything up to the ampersand delimiter
+	var value=RegExp("" + key + "[^&]+").exec(queryString);
+	
+	// Return the unescaped value minus everything starting from the equals sign or an empty string
+	return !!value ? decodeURI(value.toString().replace(/^[^=]+./,"")) : null;
+}
