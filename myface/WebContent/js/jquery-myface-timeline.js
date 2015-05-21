@@ -61,6 +61,18 @@ function buildTimeLineItem(value){
 	else if(value.type == "photo")
 		itemClass = "fa fa-camera bg-purple";
 	
+	var reshareButton = "";
+	if(value.link != null){
+		reshareButton = " <button class='btn btn-sm share-btn' value='" + value.link + "'>" +
+		"<i class='fa fa-fw fa-retweet'></i>" +
+		" </button>";
+	}
+	else if(value.actions != null){
+		reshareButton = " <button class='btn btn-sm share-btn' value='" + value.actions[1].link + "'>" +
+		"<i class='fa fa-fw fa-retweet'></i>" +
+		" </button>";
+	}
+	
 	var timeLineItem = "<li><i class='" + itemClass +"'></i>" +
 		"<div class='timeline-item'>" +
 		
@@ -70,9 +82,7 @@ function buildTimeLineItem(value){
 			" <button class='btn btn-sm like-btn' value=" + value.id + ">" +
 			"		<i class='fa fa-fw " + likeBtnClass + " like-icon'></i>" +
 			" </button>" +
-			" <button class='btn btn-sm share-btn' value=" + value.id + ">" +
-					"<i class='fa fa-fw fa-retweet'></i>" +
-			" </button>" +
+			reshareButton + 
 		"</span>" +
 		
 		"<h3 class='timeline-header no-border'>" +
