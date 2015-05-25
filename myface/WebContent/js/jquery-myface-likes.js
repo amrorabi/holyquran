@@ -6,7 +6,7 @@ function getLikesNames(data){
 	var userId = sessionStorage.getItem("userId");
 	$.each(data, function getName(key, value){				
 		names += value.name;
-		names += "</br>";
+		names += "&lt;/br&gt;";
 		if(userId == value.id)
 			likeBtnClass = 'fa-heart';	
 	});

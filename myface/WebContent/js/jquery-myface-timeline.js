@@ -121,10 +121,8 @@ function buildTimeLineItem(value){
 	
 	if(value.likes != null){
 		timeLineItem += 
-			"<a id="+ value.id +
-			"href='#' data-toggle='tooltip' data-placement='top' data-html='true' " +
-			"title='" + likesNames + "'>" +
-            value.likes.data.length + " likes </a>";							
+			"<a id='"+ value.id + "' data-toggle='tooltip' data-placement='top' data-html='true' " +
+			"title='" + likesNames + "'>" + value.likes.data.length + " likes </a>";							
 	}
 	
 	if(value.comments != null){
