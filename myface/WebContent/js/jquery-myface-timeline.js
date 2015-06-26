@@ -165,29 +165,16 @@ function homeActions(){
 	   //open video
 	   $(document).on('click', "a.video-link", function(event){				
 			event.preventDefault();
-			
 			var videoSrc = $(this).attr("href");
-
-			if(/^http:\/\/www\.youtube/.test(videoSrc)){
-				$("#youtubeSrc").attr("src", videoSrc);			
-				$('#youtubeDiv').modal({ keyboard: false });
-			}else{
-				$("#videoSrc").attr("src", videoSrc);			
-				$('#videoDiv').modal({ keyboard: false });
-			}
-//			$("#videoLabel").html($(this).attr("id"));
+			$("#videoSrc").attr("src", videoSrc);			
+			$('#videoDiv').modal({ keyboard: false });
 	   });
 	   
-	   //close video
-	   $("#videoDiv").on("hidden.bs.modal", function () {
-		   $("#videoSrc")[0].pause();
-		   $("#videoSrc")[0].currentTime = 0;
-	   });
-	   
-	 //close youtube video
-	  $("#youtubeDiv").on("hidden.bs.modal", function () {
-		  $('#youtubeSrc')[0].contentWindow.
-		  		postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');  
+	 //close video
+	  $("#videoDiv").on("hidden.bs.modal", function () {
+		  $('#videoSrc')[0].contentWindow.
+		  		postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
+		  $('#videoSrc').attr('src', '');
 	  });
 	  
 	   //open photo
