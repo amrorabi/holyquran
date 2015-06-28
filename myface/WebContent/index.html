@@ -37,8 +37,7 @@
         <![endif]-->
 <link rel="stylesheet"
 	href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="js/jquery-1.11.3.min.js"></script>
 
 <script src="js/jquery.timeago.js"></script>
 <script src="js/jquery-myface-util.js"></script>
@@ -170,18 +169,11 @@
 	 </div>
 	<!-- end of login modal -->
 	
-	<!-- vedio modals -->
+	<!-- vedio modal -->
 	<div id="videoDiv" class="modal fade video-container video-wrap">
-		<video id="videoSrc" controls width="50%" height="70%" src="" 
-			class="video-js vjs-default-skin"> 
-		 	Your browser does not support the video tag.
-		</video>
+		<iframe id="videoSrc" type="text/html" src="" frameborder="0" width="50%" height="70%"></iframe>
 	</div>
-	
-	<div id="youtubeDiv" class="modal fade video-container video-wrap">
-		<embed id="youtubeSrc" width="50%" height="70%" src="" /> 
-	</div>
-	<!-- end of video modals -->
+	<!-- end of video modal -->
 	
 	<!-- photo modal -->
 	<div id="photoDiv" class="modal fade video-container video-wrap">
