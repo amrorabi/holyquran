@@ -1,5 +1,29 @@
+var nextDay = null;
+var fromDate = null;
+var toDate = null;
+var dateRange = null;
+var numberOfEmptyPulling = 0;
+
+function getNextDateRange(){
+	if(nextDay == null){
+		nextDay = new Date();									//first time = today
+		nextDay.setUTCHours(0, 0, 0, 0);
+	}else{
+		nextDay.setDate(nextDay.getDate() - 1);			//subtract one day
+	}
+				
+	fromDate = Math.round(nextDay .getTime() / 1000);		//from beginning of the day
+
+	toDate = new Date(nextDay);							//to end of the day
+	toDate.setUTCHours(23, 59, 59, 0);
+	toDate = Math.round(toDate.getTime() / 1000);
+	
+	dateRange =  "since=" + fromDate + "&untill=" + toDate;
+}
+
 function loadUserHome(){
-	appendToTimeLine("https://graph.facebook.com/v2.1/me/home?access_token=" + sessionStorage.getItem("accessToken"));
+	getNextDateRange();
+	appendToTimeLine("https://graph.facebook.com/v2.1/me/home?" + dateRange + "&access_token=" + sessionStorage.getItem("accessToken"));
 
 }
 
@@ -13,6 +37,17 @@ function appendToTimeLine(targetUrl){
 		success : function(data, status, jqXHR) {
 
 			var dateLabel = "";
+			
+			//if empty data, get in next date range
+			if(data.data.length == 0 && numberOfEmptyPulling < 2){			//numberOfEmptyPulling to prevent infinite loop, in case user has no data at all
+				numberOfEmptyPulling += 1
+				loadUserHome();
+				return;
+			}
+			
+			$('#timeline').empty();
+			numberOfEmptyPulling = 0;
+			
 			$.each(data.data, function(key, value) {
 				//Creation date
 				var creationDate = new Date(value.created_time);
@@ -27,12 +62,20 @@ function appendToTimeLine(targetUrl){
 				//append data
 				$('#timeline').append(timeLineItem);
 			});
-			
-			$('#nextBtn').attr('href', data.paging.next);
-			
-			//start shorten plugin ("read more")
-//			$(".short-text").each(shorten());
 
+			if(data.paging != null)
+				$('#nextBtn').attr('href', data.paging.next);
+			else
+				$('#nextBtn').attr('href', '');
+			
+			$("#nextBtn").removeAttr('disabled');
+//			$('html,body').scrollTop(0);
+			$('html, body').animate({ scrollTop: 0 }, 'slow');
+		},
+		
+		error :  function (XMLHttpRequest, textStatus, errorThrown){
+			alert('Facebook returned error ' + errorThrown +' , please retry');
+			$("#nextBtn").removeAttr('disabled');
 		}
 	});
 }
@@ -199,6 +242,7 @@ function homeActions(){
 	   
 	   //next button		
 	   $("#nextBtn").click(function(e){	
+		    $("#nextBtn").attr('disabled','disabled');
 			e.preventDefault();
 			var nextUrl = $(this).attr("href");
 			appendToTimeLine(nextUrl);
