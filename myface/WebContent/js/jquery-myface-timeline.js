@@ -51,6 +51,11 @@ function appendToTimeLine(targetUrl){
 			$.each(data.data, function(key, value) {
 				//Creation date
 				var creationDate = new Date(value.created_time);
+				creationDate.setUTCHours(0, 0, 0, 0);
+				
+				if(creationDate.getTime() != nextDay.getTime())
+					return true;		//it just skips one iteration
+				
 				if(dateLabel != creationDate.toDateString()){
 					dateLabel = creationDate.toDateString();
 					var formattedDate = creationDate.toLocaleFormat('%d %b %Y'); 
