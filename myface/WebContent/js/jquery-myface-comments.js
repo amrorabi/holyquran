@@ -99,7 +99,8 @@ function commentingActions() {
 		   //set comments body scroll
 		   $('#commentsBody').slimScroll({
 		        height: '75%',		//TODO and find how to not affect div height
-		        start : 'top'
+		        start : 'top',
+		        wheelStep : '1'
 		    });
 			
 			//open comments action
